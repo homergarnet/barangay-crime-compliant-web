@@ -3,11 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ScrollToTopComponent } from './shared/scroll-to-top/scroll-to-top.component';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { ScrollToTopComponent } from './pages/shared/scroll-to-top/scroll-to-top.component';
 @NgModule({
   declarations: [
     AppComponent,
