@@ -27,6 +27,15 @@ body {
 
   position: relative;
   font-family: 'Roboto', sans-serif;
-  background-color: rgb(245,245,245);
+  background-color: rgb(0,74,173);
 
+}
+
+.oval-border{
+  border-radius: 100px;
+}
+
+div.custom-card-size{
+  max-width: 600px;
+  // border-radius: 25px;
 }

@@ -9,10 +9,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ScrollToTopComponent } from './pages/shared/scroll-to-top/scroll-to-top.component';
+
 @NgModule({
   declarations: [
     AppComponent,
-    ScrollToTopComponent
+    ScrollToTopComponent,
+
   ],
   imports: [
     BrowserModule,

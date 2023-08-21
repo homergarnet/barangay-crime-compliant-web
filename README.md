@@ -8,6 +8,19 @@ Error fix solutions:
 1.)open the powershell run it on administrator then type the following line:
   Set-ExecutionPolicy -ExecutionPolicy Unrestricted
 ----------------------------------------------------------------------------------------------------------------------------------------
+types of account:
+1.)admin
+2.)barangay
+3.)compliant
+----------------------------------------------------------------------------------------------------------------------------------------
+types of routing in layout:
+1.)admin
+2.)barangay
+3.)compliant
+4.)user-auth
+5.)admin-auth
+6.)barangay-auth
+----------------------------------------------------------------------------------------------------------------------------------------
 vs code extensions for angular:
 
 1.) Angular Language Service

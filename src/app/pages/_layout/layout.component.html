@@ -1,1 +1,20 @@
-<p>layout works!</p>
+<!-- Sidenav -->
+<ng-container *ngIf="accountType == 'front-page'">
+  <app-home></app-home>
+</ng-container>
+<ng-container *ngIf="accountType == 'user-auth'">
+  <router-outlet></router-outlet>
+</ng-container>
+<ng-container *ngIf="accountType == 'admin'">
+  <app-sidebar></app-sidebar>
+</ng-container>
+
+<div class="main-content" *ngIf="accountType == 'admin' || accountType == 'barangay'">
+  <!-- Top navbar -->
+  <app-navbar></app-navbar>
+  <!-- Pages -->
+  <router-outlet></router-outlet>
+  <div class="container-fluid">
+    <!-- <app-footer></app-footer> -->
+  </div>
+</div>
