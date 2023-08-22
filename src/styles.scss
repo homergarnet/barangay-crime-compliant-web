@@ -1,35 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
-// Global vendors
-@import "~bootstrap/dist/css/bootstrap.css";
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 
-//FOR ANGULAR MATERIAL
-// @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-
-// FOR ngx-gallery style
-.mat-sidenav-container, .mat-sidenav-content, .mat-tab-body-content {
-  transform: none !important;
-}
-
-// if you'd like to use it without importing all of bootstrap it requires
-@import 'node_modules/bootstrap/scss/functions';
-@import 'node_modules/bootstrap/scss/variables';
-@import 'node_modules/bootstrap/scss/mixins';
-@import 'node_modules/ngx-toastr/toastr-bs4-alert';
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-
-  position: relative;
-  font-family: 'Roboto', sans-serif;
-  background-color: rgb(0,74,173);
-
-}
 
 .oval-border{
   border-radius: 100px;

@@ -16,13 +16,13 @@
     <a
       class="navbar-brand pt-0"
       routerLinkActive="active"
-      [routerLink]="['/dashboard']"
+      [routerLink]="['/admin']"
     >
       <img
-        src="./assets/img/brand/red.png"
+        src="../../../../../assets/media/logos/san-clemente-logo.png"
         class="navbar-brand-img"
         alt="..."
-      />
+      /> <h5>Mobile Crime And <br>Complaint Management System</h5>
     </a>
     <!-- User -->
     <ul class="nav align-items-center d-md-none">
@@ -161,7 +161,7 @@
         <li class="nav-item">
           <a
             class="nav-link"
-            href="https://demos.creative-tim.com/argon-dashboard-angular/documentation/tutorial"
+            [routerLink]="['/admin/manage-crime']"
           >
             <i class="ni ni-spaceship"></i> Manage Crime
           </a>
@@ -169,7 +169,7 @@
         <li class="nav-item">
           <a
             class="nav-link"
-            href="https://demos.creative-tim.com/argon-dashboard-angular/documentation/colors"
+            [routerLink]="['/admin/incident-report']"
           >
             <i class="ni ni-palette"></i> Manage Incident Report
           </a>
@@ -177,7 +177,7 @@
         <li class="nav-item">
           <a
             class="nav-link"
-            href="https://demos.creative-tim.com/argon-dashboard-angular/documentation/alerts"
+            [routerLink]="['/admin/crime-mapping']"
           >
             <i class="ni ni-ui-04"></i> Crime Mapping
           </a>
@@ -193,7 +193,7 @@
         <li class="nav-item">
           <a
             class="nav-link"
-            href="https://demos.creative-tim.com/argon-dashboard-angular/documentation/tutorial"
+            [routerLink]="['/admin/announcement']"
           >
             <i class="ni ni-spaceship"></i> Announcement
           </a>
@@ -201,7 +201,7 @@
         <li class="nav-item">
           <a
             class="nav-link"
-            href="https://demos.creative-tim.com/argon-dashboard-angular/documentation/colors"
+            [routerLink]="['/admin/law-and-order-information']"
           >
             <i class="ni ni-palette"></i> Mangement Law and Order Information
           </a>
@@ -217,7 +217,7 @@
         <li class="nav-item">
           <a
             class="nav-link"
-            href="https://demos.creative-tim.com/argon-dashboard-angular/documentation/tutorial"
+            [routerLink]="['/admin/reports']"
           >
             <i class="ni ni-spaceship"></i> Reports(Generated Report)
           </a>
@@ -225,7 +225,7 @@
         <li class="nav-item">
           <a
             class="nav-link"
-            href="https://demos.creative-tim.com/argon-dashboard-angular/documentation/colors"
+            [routerLink]="['/admin/users']"
           >
             <i class="ni ni-palette"></i> Users
           </a>
@@ -241,7 +241,7 @@
         <li class="nav-item">
           <a
             class="nav-link"
-            href="https://demos.creative-tim.com/argon-dashboard-angular/documentation/tutorial"
+            [routerLink]="['/admin/account-settings']"
           >
             <i class="ni ni-spaceship"></i> Account Settings
           </a>

@@ -10,11 +10,11 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ScrollToTopComponent } from './pages/shared/scroll-to-top/scroll-to-top.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     ScrollToTopComponent,
-
   ],
   imports: [
     BrowserModule,
