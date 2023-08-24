@@ -1,3 +1,4 @@
+
 <nav
   class="navbar navbar-vertical navbar-expand-md navbar-light bg-white"
   id="sidenav-main"
@@ -157,96 +158,183 @@
       <!-- Heading -->
       <h6 class="navbar-heading text-muted">Management Lists</h6>
       <!-- Navigation -->
-      <ul class="navbar-nav mb-md-3">
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            [routerLink]="['/admin/manage-crime']"
-          >
-            <i class="ni ni-spaceship"></i> Manage Crime
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            [routerLink]="['/admin/incident-report']"
-          >
-            <i class="ni ni-palette"></i> Manage Incident Report
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            [routerLink]="['/admin/crime-mapping']"
-          >
-            <i class="ni ni-ui-04"></i> Crime Mapping
-          </a>
-        </li>
-      </ul>
 
-      <!-- Divider -->
-      <hr class="my-3" />
-      <!-- Heading -->
-      <h6 class="navbar-heading text-muted">Informations</h6>
-      <!-- Navigation -->
-      <ul class="navbar-nav mb-md-3">
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            [routerLink]="['/admin/announcement']"
-          >
-            <i class="ni ni-spaceship"></i> Announcement
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            [routerLink]="['/admin/law-and-order-information']"
-          >
-            <i class="ni ni-palette"></i> Mangement Law and Order Information
-          </a>
-        </li>
-      </ul>
+      <ng-container *ngIf="accountType == 'admin'">
+        <ul class="navbar-nav mb-md-3">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              [routerLink]="['/admin/manage-crime']"
+            >
+              <i class="ni ni-spaceship"></i> Manage Crime
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              [routerLink]="['/admin/incident-report']"
+            >
+              <i class="ni ni-palette"></i> Manage Incident Report
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              [routerLink]="['/admin/crime-mapping']"
+            >
+              <i class="ni ni-ui-04"></i> Crime Mapping
+            </a>
+          </li>
+        </ul>
 
-      <!-- Divider -->
-      <hr class="my-3" />
-      <!-- Heading -->
-      <h6 class="navbar-heading text-muted">Reports</h6>
-      <!-- Navigation -->
-      <ul class="navbar-nav mb-md-3">
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            [routerLink]="['/admin/reports']"
-          >
-            <i class="ni ni-spaceship"></i> Reports(Generated Report)
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            [routerLink]="['/admin/users']"
-          >
-            <i class="ni ni-palette"></i> Users
-          </a>
-        </li>
-      </ul>
+        <!-- Divider -->
+        <hr class="my-3" />
+        <!-- Heading -->
+        <h6 class="navbar-heading text-muted">Informations</h6>
+        <!-- Navigation -->
+        <ul class="navbar-nav mb-md-3">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              [routerLink]="['/admin/announcement']"
+            >
+              <i class="ni ni-spaceship"></i> Announcement
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              [routerLink]="['/admin/law-and-order-information']"
+            >
+              <i class="ni ni-palette"></i> Mangement Law and Order Information
+            </a>
+          </li>
+        </ul>
 
-      <!-- Divider -->
-      <hr class="my-3" />
-      <!-- Heading -->
-      <h6 class="navbar-heading text-muted">Settings</h6>
-      <!-- Navigation -->
-      <ul class="navbar-nav mb-md-3">
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            [routerLink]="['/admin/account-settings']"
-          >
-            <i class="ni ni-spaceship"></i> Account Settings
-          </a>
-        </li>
-      </ul>
+        <!-- Divider -->
+        <hr class="my-3" />
+        <!-- Heading -->
+        <h6 class="navbar-heading text-muted">Reports</h6>
+        <!-- Navigation -->
+        <ul class="navbar-nav mb-md-3">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              [routerLink]="['/admin/reports']"
+            >
+              <i class="ni ni-spaceship"></i> Reports(Generated Report)
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              [routerLink]="['/admin/users']"
+            >
+              <i class="ni ni-palette"></i> Users
+            </a>
+          </li>
+        </ul>
+
+        <!-- Divider -->
+        <hr class="my-3" />
+        <!-- Heading -->
+        <h6 class="navbar-heading text-muted">Settings</h6>
+        <!-- Navigation -->
+        <ul class="navbar-nav mb-md-3">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              [routerLink]="['/admin/account-settings']"
+            >
+              <i class="ni ni-spaceship"></i> Account Settings
+            </a>
+          </li>
+        </ul>
+      </ng-container>
+      <ng-container *ngIf="accountType == 'barangay'">
+        <ul class="navbar-nav mb-md-3">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              [routerLink]="['/barangay/received-crime']"
+            >
+              <i class="ni ni-spaceship"></i> Received Crime
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              [routerLink]="['/barangay/received-crime-compliant']"
+            >
+              <i class="ni ni-palette"></i> Received Compliant
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              [routerLink]="['/barangay/location-alert']"
+            >
+              <i class="ni ni-ui-04"></i> Location Alert
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              [routerLink]="['/barangay/solved-completed-reports']"
+            >
+              <i class="ni ni-ui-04"></i> Solved Completed Reports
+            </a>
+          </li>
+        </ul>
+
+        <!-- Divider -->
+        <hr class="my-3" />
+        <!-- Heading -->
+        <h6 class="navbar-heading text-muted">Informations</h6>
+        <!-- Navigation -->
+        <ul class="navbar-nav mb-md-3">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              [routerLink]="['/barangay/announcement']"
+            >
+              <i class="ni ni-spaceship"></i> Announcement
+            </a>
+          </li>
+        </ul>
+
+        <!-- Divider -->
+        <hr class="my-3" />
+        <!-- Heading -->
+        <h6 class="navbar-heading text-muted">Reports</h6>
+        <!-- Navigation -->
+        <ul class="navbar-nav mb-md-3">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              [routerLink]="['/barangay/reports']"
+            >
+              <i class="ni ni-spaceship"></i> Reports(Generated Report)
+            </a>
+          </li>
+        </ul>
+
+      </ng-container>
+
     </div>
   </div>
 </nav>

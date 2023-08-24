@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 declare interface RouteInfo {
     path: string;
@@ -8,7 +9,7 @@ declare interface RouteInfo {
     class: string;
 }
 export const ROUTES: RouteInfo[] = [
-    { path: '/admin', title: 'Dashboard',  icon: 'ni-tv-2 text-primary', class: '' },
+    // { path: '/admin', title: 'Dashboard',  icon: 'ni-tv-2 text-primary', class: '' },
     // { path: '/icons', title: 'Icons',  icon:'ni-planet text-blue', class: '' },
     // { path: '/maps', title: 'Maps',  icon:'ni-pin-3 text-orange', class: '' },
     // { path: '/user-profile', title: 'User profile',  icon:'ni-single-02 text-yellow', class: '' },
@@ -23,12 +24,44 @@ export const ROUTES: RouteInfo[] = [
 })
 export class SidebarComponent implements OnInit {
 
+  accountType: string = '';
+  routesObj: any = {};
   public menuItems: any[];
   public isCollapsed = true;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    ) { }
 
   ngOnInit() {
+
+    this.authService.loginTypeSubject$.subscribe(res => {
+
+      this.accountType = res;
+
+    })
+
+    if(this.accountType == 'admin') {
+      this.routesObj = {
+        path: '/admin',
+        title: 'Dashboard',
+        icon: 'ni-tv-2 text-primary',
+        class: ''
+      };
+    } else {
+      this.routesObj = {
+        path: '/barangay',
+        title: 'Dashboard',
+        icon: 'ni-tv-2 text-primary',
+        class: ''
+      };
+    }
+
+    ROUTES.push(this.routesObj);
+
+
+
     this.menuItems = ROUTES.filter(menuItem => menuItem);
     this.router.events.subscribe((event) => {
       this.isCollapsed = true;

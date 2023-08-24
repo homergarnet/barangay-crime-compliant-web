@@ -5,7 +5,7 @@
 <ng-container *ngIf="accountType == 'user-auth'">
   <router-outlet></router-outlet>
 </ng-container>
-<ng-container *ngIf="accountType == 'admin'">
+<ng-container *ngIf="accountType == 'admin' || accountType == 'barangay'" >
   <!-- Sidenav -->
   <app-sidebar></app-sidebar>
 </ng-container>
