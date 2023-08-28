@@ -2,7 +2,8 @@
 <ng-container *ngIf="accountType == 'front-page'">
   <app-home></app-home>
 </ng-container>
-<ng-container *ngIf="accountType == 'user-auth'">
+
+<ng-container *ngIf="accountType != 'admin' && accountType != 'barangay' && accountType != 'compliant'">
   <router-outlet></router-outlet>
 </ng-container>
 <ng-container *ngIf="accountType == 'admin' || accountType == 'barangay'" >
