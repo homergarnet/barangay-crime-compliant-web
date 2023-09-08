@@ -30,44 +30,64 @@ export class AuthService {
 
   }
 
-  isAuthenticated(): boolean {
-    const token = localStorage.getItem('token') as string;
+  isAuthenticated(pageType: string): boolean {
+    const token = localStorage.getItem(pageType + '_token') as string;
     let parseToken = JSON.parse(token);
+
     const helper = new JwtHelperService();
 
-
-    if(parseToken?.access_token == null) {
+    if(parseToken == null) {
 
       this.loginTypeSubject$.next('');
       return false;
 
-    } else if(helper.isTokenExpired(parseToken.access_token)) {
+    } else if(helper.isTokenExpired(parseToken)) {
 
       this.loginTypeSubject$.next('');
       this.clearSession();
-      this.router.navigate(['/auth/compliant-sign-in'], { queryParams: {} });
-      const isExpired = helper.isTokenExpired(parseToken.access_token);
+
+      if(pageType == 'compliant'){
+
+        this.router.navigate(['/auth/sign-in'], { queryParams: {} });
+
+      }
+
+      if(pageType == 'admin'){
+
+        this.router.navigate(['/auth/admin-sign-in'], { queryParams: {} });
+
+      }
+
+      if(pageType == 'barangay'){
+
+        this.router.navigate(['/auth/barangay-sign-in'], { queryParams: {} });
+
+      }
+
+      const isExpired = helper.isTokenExpired(parseToken);
       return isExpired;
 
     }
 
     else {
 
-      this.loginTypeSubject$.next('compliant');
-      const isExpired = helper.isTokenExpired(parseToken.access_token);
+      this.loginTypeSubject$.next(pageType);
+      const isExpired = helper.isTokenExpired(parseToken);
       return !isExpired;
+
     }
 
 
   }
 
   // JWT
-  setSession(result: any): void {
+  setSession(result: any, pageType: string): void {
 
-    this.loginTypeSubject$.next('compliant');
+    this.loginTypeSubject$.next(pageType);
     // const user: UserModel = jwt_decode(result.access_token);
     localStorage.setItem(this.authLocalStorageToken, JSON.stringify(result));
-    localStorage.setItem("token", JSON.stringify(result));
+
+    localStorage.setItem(pageType + "_token", JSON.stringify(result));
 
   }
 
@@ -77,12 +97,12 @@ export class AuthService {
 
   }
 
-  redirectToCompliantPage(): void {
-
-    const isAuthenticated = this.isAuthenticated();
+  redirectToPage(pageType: string): void {
+    const isAuthenticated = this.isAuthenticated(pageType);
     if( isAuthenticated ) {
+
       //to route back to previous route
-      this.router.navigate(['/compliant'], {relativeTo: this.activatedRoute});
+      this.router.navigate(['/' + pageType], {relativeTo: this.activatedRoute});
     }
 
   }

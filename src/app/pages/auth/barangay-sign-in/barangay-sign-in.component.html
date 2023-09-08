@@ -1,1 +1,32 @@
-<p>barangay-sign-in works!</p>
+<div class="container">
+  <br><br><br><br>
+  <div class="row mb-2">
+    <div class="col">
+      <form [formGroup]="loginForm" (ngSubmit)="sampleLogin()">
+        <h1 class="text-center text-white">Mobile Crime and Compliant Report Management System for San Clemente, Tarlac</h1>
+        <div class="card mx-auto shadow bg-white custom-card-size mt-5">
+          <div class="card-body">
+            <p class="text-center text-dark">No Account? Create One <a routerLink="/auth/sign-up">Sign up</a></p>
+            <div class="row">
+              <div class="col">
+                <label for="username" class="mb-1">Username: </label>
+                <input id="username" class="form-control" type="text" placeholder="Username" formControlName="username" />
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col">
+                <label for="password" class="mb-1">Password: </label>
+                <input id="password" class="form-control" type="password" placeholder="Password" name="" formControlName="password"/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col text-center">
+                <button class="btn btn-primary" type="submit">Login</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

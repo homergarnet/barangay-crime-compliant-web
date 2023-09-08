@@ -17,7 +17,7 @@ export class LayoutComponent implements OnInit {
   ngOnInit(): void {
 
     this.authService.loginTypeSubject$.subscribe(res => {
-
+      console.log("res: ", res)
       this.accountType = res;
 
     })

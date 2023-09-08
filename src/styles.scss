@@ -1,4 +1,13 @@
 
+//angular material
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+// if you'd like to use it without importing all of bootstrap it requires
+//for ngx-toastr
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
+@import 'node_modules/ngx-toastr/toastr-bs4-alert';
 
 .oval-border{
   border-radius: 100px;
@@ -7,4 +16,9 @@
 div.custom-card-size{
   max-width: 600px;
   // border-radius: 25px;
+}
+
+.scrollable-div{
+  overflow-y: auto;
+  max-height: 400px;
 }

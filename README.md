@@ -21,6 +21,14 @@ types of routing in layout:
 5.)admin-auth
 6.)barangay-auth
 ----------------------------------------------------------------------------------------------------------------------------------------
+Type of Statuses:
+
+1.) active
+2.) fake report
+3.) resolved
+4.) in progress
+5.) investigation
+----------------------------------------------------------------------------------------------------------------------------------------
 vs code extensions for angular:
 
 1.) Angular Language Service

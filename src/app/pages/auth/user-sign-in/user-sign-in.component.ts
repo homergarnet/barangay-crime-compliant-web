@@ -30,8 +30,8 @@ export class UserSignInComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.authService.redirectToCompliantPage();
-    this.redirectUrl = this.activatedRoute.snapshot.queryParamMap.get('redirectUrl') || '';
+    this.authService.redirectToPage('compliant');
+    this.redirectUrl = this.activatedRoute.snapshot.queryParamMap.get('redirectUrl') || 'compliant';
   }
 
   sampleLogin(): void {
@@ -40,7 +40,8 @@ export class UserSignInComponent implements OnInit {
     this.authService.getAccessToken(this.loginForm.get('username')?.value, this.loginForm.get('password')?.value, "compliant").subscribe(res => {
 
       let result: any = res;
-      this.authService.setSession(result);
+      this.authService.setSession(result, 'compliant');
+
       this.router.navigateByUrl(this.redirectUrl);
       this.spinner.hide();
 

@@ -2,7 +2,6 @@
 <ng-container *ngIf="accountType == 'front-page'">
   <app-home></app-home>
 </ng-container>
-
 <ng-container *ngIf="accountType != 'admin' && accountType != 'barangay' && accountType != 'compliant'">
   <router-outlet></router-outlet>
 </ng-container>
@@ -16,7 +15,7 @@
   <app-navbar></app-navbar>
   <!-- Pages -->
   <router-outlet></router-outlet>
-  <div class="container-fluid">
+  <!-- <div class="container-fluid">
     <app-footer></app-footer>
-  </div>
+  </div> -->
 </div>

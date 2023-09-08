@@ -7,11 +7,11 @@ import { AdminSignInComponent } from './admin-sign-in/admin-sign-in.component';
 
 const routes: Routes = [
   {
-    path: 'compliant-sign-in',
+    path: 'sign-in',
     component: UserSignInComponent,
   },
   {
-    path: 'compliant-sign-up',
+    path: 'sign-up',
     component: UserSignUpComponent,
   },
   {

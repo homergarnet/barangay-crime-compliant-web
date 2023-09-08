@@ -9,43 +9,54 @@ import { LawAndOrderInformationComponent } from './law-and-order-information/law
 import { ReportsComponent } from './reports/reports.component';
 import { UsersComponent } from './users/users.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { CompliantGuardsGuard } from '../auth/guards/compliant-guards.guard';
+import { AdminGuardsGuard } from '../auth/guards/admin-guards.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+    canActivate: [AdminGuardsGuard]
   },
   {
     path: 'manage-crime',
     component: ManageCrimeComponent,
+    canActivate: [AdminGuardsGuard]
   },
   {
     path: 'incident-report',
     component: IncidentReportComponent,
+    canActivate: [AdminGuardsGuard]
   },
   {
     path: 'crime-mapping',
     component: CrimeMappingComponent,
+    canActivate: [AdminGuardsGuard]
   },
   {
     path: 'announcement',
     component: AnnouncementComponent,
+    canActivate: [AdminGuardsGuard]
   },
   {
     path: 'law-and-order-information',
     component: LawAndOrderInformationComponent,
+    canActivate: [AdminGuardsGuard]
   },
   {
     path: 'reports',
     component: ReportsComponent,
+    canActivate: [AdminGuardsGuard]
   },
   {
     path: 'users',
     component: UsersComponent,
+    canActivate: [AdminGuardsGuard]
   },
   {
     path: 'account-settings',
     component: AccountSettingsComponent,
+    canActivate: [AdminGuardsGuard]
   },
 
 ];

@@ -12,7 +12,8 @@ export class CompliantGuardsGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
-    const isAuthenticated = this.authService.isAuthenticated();
+
+    const isAuthenticated = this.authService.isAuthenticated('compliant');
 
     if (isAuthenticated) {
 
@@ -22,7 +23,9 @@ export class CompliantGuardsGuard implements CanActivate {
     else {
 
     }
+
     this.router.navigate(['/auth/compliant-sign-in'], { queryParams: { redirectUrl: state.url } });
+
     return false;
 
   }
