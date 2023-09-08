@@ -6,16 +6,32 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-              <button type="button" class="close" (click)="showHideModal()" data-dismiss="modal" aria-label="Close">
+              <h5 class="modal-title" id="exampleModalCenterTitle">{{ modalTitle }}</h5>
+              <button type="button" class="close" (click)="showHideModal('', false)" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
               </button>
             </div>
             <div class="modal-body scrollable-div">
+              <!-- Design 1 -->
+              <ng-template #edit>
+                <div>
+                  <h2>Design 1</h2>
+                  <p>This is the first design.</p>
+                </div>
+              </ng-template>
+              <!-- Design 2 -->
+              <ng-template #viewDetails>
+                <div>
+                  <h2>Design 2</h2>
+                  <p>This is the second design.</p>
+                </div>
+              </ng-template>
 
+              <!-- Display the selected design -->
+              <ng-container *ngTemplateOutlet="showEdit ? edit : viewDetails"></ng-container>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" (click)="showHideModal()" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-secondary" (click)="showHideModal('', false)" data-dismiss="modal">Close</button>
               <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
             </div>
           </div>
@@ -66,16 +82,14 @@
                   <td>{{ data.Status }}</td>
 
                   <td>
-                    <button class="btn btn-primary mr-2" type="button" (click)="showHideModal()">Edit</button>
-                    <button class="btn btn-success" type="button" (click)="showHideModal()">View Details</button>
+                    <button class="btn btn-primary mr-2" type="button" (click)="showHideModal('Edit', true)">Edit</button>
+                    <button class="btn btn-success" type="button" (click)="showHideModal('View Details', false)">View Details</button>
                   </td>
 
                 </tr>
-
               </tbody>
             </table>
           </div>
-
         </div>
       </div>
     </div>

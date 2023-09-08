@@ -23,6 +23,9 @@ export class ReceivedCrimeComponent implements OnInit {
   numberOfPagesArr: any;
 
   isModalShow: boolean = false;
+  modalTitle: string = '';
+
+  showEdit: boolean = false;
 
   constructor(
     private toastr: ToastrService,
@@ -122,10 +125,11 @@ export class ReceivedCrimeComponent implements OnInit {
 
   }
 
-  showHideModal(): void {
+  showHideModal(modalTitle: string, showEdit: boolean): void {
 
     this.isModalShow = !this.isModalShow;
-
+    this.modalTitle = modalTitle;
+    this.showEdit = showEdit;
   }
 
 }
