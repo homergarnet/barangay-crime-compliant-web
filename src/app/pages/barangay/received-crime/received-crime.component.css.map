@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,cAAc,CAAC;EACb,OAAO,EAAE,KAAK;EACd,aAAa,EAAE,IAAI;CACpB;;AACD,AAAA,WAAW,CAAC;EACV,OAAO,EAAE,IAAI;CACd;;AAED,AAAA,YAAY,CAAC;EACX,KAAK,EAAE,IAAI;CACZ",
+    "sources": [
+        "received-crime.component.scss"
+    ],
+    "names": [],
+    "file": "received-crime.component.css"
+}

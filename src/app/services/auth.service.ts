@@ -111,4 +111,34 @@ export class AuthService {
     return this.http.post(this.API_URL + 'api/login', { Username, Password, UserType }, { ...httpOptions, responseType: 'text' });
   }
 
+  logout(pageType: string = '') {
+
+    this.clearSession();
+    this.loginTypeSubject$.next('');
+    if(pageType == 'compliant'){
+
+      this.router.navigate(['/auth/sign-in'], { queryParams: {} });
+
+    }
+
+    if(pageType == 'admin'){
+
+      this.router.navigate(['/auth/admin-sign-in'], { queryParams: {} });
+
+    }
+
+    if(pageType == 'barangay'){
+
+      this.router.navigate(['/auth/barangay-sign-in'], { queryParams: {} });
+
+    }
+
+  }
+
+  getCurrentUserPersonalInfo(): Observable<any> {
+
+    return this.http.get(this.API_URL + `api/get-current-user-personal-info`);
+
+  }
+
 }

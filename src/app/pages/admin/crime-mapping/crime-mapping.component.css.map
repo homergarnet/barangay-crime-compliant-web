@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "crime-mapping.component.scss"
+    ],
+    "names": [],
+    "file": "crime-mapping.component.css"
+}

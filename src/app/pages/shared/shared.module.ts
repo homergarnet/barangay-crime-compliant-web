@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ScrollToTopComponent } from './scroll-to-top/scroll-to-top.component';
 import { TotalCardsComponent } from './cards/total-cards/total-cards.component';
-
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 @NgModule({
   declarations: [
@@ -15,12 +15,14 @@ import { TotalCardsComponent } from './cards/total-cards/total-cards.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    AngularEditorModule,
   ],
   exports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    TotalCardsComponent
+    TotalCardsComponent,
+    AngularEditorModule
   ]
 })
 export class SharedModule { }

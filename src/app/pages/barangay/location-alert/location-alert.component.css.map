@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "location-alert.component.scss"
+    ],
+    "names": [],
+    "file": "location-alert.component.css"
+}

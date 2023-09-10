@@ -1,0 +1,17 @@
+.scroll-to-top {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  opacity: 0;
+  -webkit-transition: all 2s ease-in-out;
+  transition: all 2s ease-in-out;
+}
+
+.show-scroll-to-top {
+  opacity: 1;
+  -webkit-transition: all 2s ease-in-out;
+  transition: all 2s ease-in-out;
+  background-color: #58595a;
+  z-index: 1;
+}
+/*# sourceMappingURL=scroll-to-top.component.css.map */

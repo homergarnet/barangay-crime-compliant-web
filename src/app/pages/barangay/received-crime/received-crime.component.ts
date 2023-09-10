@@ -4,6 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ReceiveCrimeService } from 'src/app/services/receive-crime.service';
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common'
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-received-crime',
   templateUrl: './received-crime.component.html',
@@ -15,7 +17,8 @@ export class ReceivedCrimeComponent implements OnInit {
 
   receiveCrimeList: any[] = [];
   receiveCrimeFilteredList: any[] = [];
-
+  crimeImageByIdList: any[] = [];
+  crimeVideoByIdList: any[] = [];
   currentPage: number = 1;
   resultPerPage: number = 10;
   thisPageFirstResult: number = (this.currentPage - 1) * this.resultPerPage;
@@ -27,6 +30,60 @@ export class ReceivedCrimeComponent implements OnInit {
 
   showEdit: boolean = false;
 
+  statusValue: any = [
+
+    {
+      'name': 'Active',
+      'value': 'active',
+      'isSelected': false,
+    },
+    {
+      'name': 'Fake Report',
+      'value': 'fake report',
+      'isSelected': false,
+    },
+    {
+      'name': 'Resolved',
+      'value': 'resolved',
+      'isSelected': false,
+    },
+    {
+      'name': 'In Progress',
+      'value': 'in progress',
+      'isSelected': true,
+    },
+    {
+      'name': 'Investigation',
+      'value': 'investigation',
+      'isSelected': false,
+    },
+    {
+      'name': 'Completed',
+      'value': 'completed',
+      'isSelected': false,
+    },
+    {
+      'name': 'Close',
+      'value': 'close',
+      'isSelected': false,
+    },
+
+  ];
+
+  receivedCrimeForm: FormGroup = new FormGroup({
+
+
+
+    status: new FormControl('', [
+
+    ]),
+
+  });
+
+  reportId: number = 0;
+
+  API_URL: string = environment.apiUrl;
+
   constructor(
     private toastr: ToastrService,
     private receiveCrimeService: ReceiveCrimeService,
@@ -37,7 +94,6 @@ export class ReceivedCrimeComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.spinner.show();
     this.initialReceiveCrimeList();
 
   }
@@ -63,6 +119,9 @@ export class ReceivedCrimeComponent implements OnInit {
   }
 
   initialReceiveCrimeList(currentPageVal: number = 1, resultPerPageVal: number = 10) {
+
+    this.spinner.show();
+
     this.receiveCrimeService.receiveCrimeList('','',currentPageVal == 0? this.currentPage : currentPageVal,resultPerPageVal == 0 ? this.resultPerPage : resultPerPageVal).subscribe(
       (res) => {
 
@@ -71,6 +130,44 @@ export class ReceivedCrimeComponent implements OnInit {
         this.receiveCrimeFilteredList = result;
         console.log("this.receiveCrimeList: ", this.receiveCrimeList);
         this.numberOfPages = Math.ceil(this.receiveCrimeList.length / this.resultPerPage);
+
+        this.spinner.hide();
+      },
+      (error) => {
+        this.spinner.hide();
+        Swal.fire('Warning', 'Something went wrong', 'warning');
+      }
+    );
+
+  }
+
+  getCrimeImageVideoByIdList() {
+    this.crimeImageByIdList = [];
+    this.crimeVideoByIdList = [];
+    this.spinner.show();
+
+    this.receiveCrimeService.getCrimeImageVideoByIdList(this.reportId).subscribe(
+      (res) => {
+
+        let result: any = res;
+
+        result.forEach((item, index)=>{
+          const lastDotIndex = item.Image.lastIndexOf('.');
+          if (lastDotIndex !== -1) {
+            if(item.Image.slice(lastDotIndex + 1) != 'mp4' && item.Image.slice(lastDotIndex + 1) != 'avi' &&
+            item.Image.slice(lastDotIndex + 1) != 'mkv' && item.Image.slice(lastDotIndex + 1) != 'mov' &&
+            item.Image.slice(lastDotIndex + 1) != 'wmv' && item.Image.slice(lastDotIndex + 1) != 'flv'
+            ) {
+              //push
+              this.crimeImageByIdList.push(item);
+            } else {
+              this.crimeVideoByIdList.push(item);
+            }
+          } else {
+
+          }
+
+        });
 
         this.spinner.hide();
       },
@@ -125,11 +222,54 @@ export class ReceivedCrimeComponent implements OnInit {
 
   }
 
-  showHideModal(modalTitle: string, showEdit: boolean): void {
+  showHideModal(modalTitle: string, showEdit: boolean, reportId: number = 0, status: string = ''): void {
 
     this.isModalShow = !this.isModalShow;
     this.modalTitle = modalTitle;
     this.showEdit = showEdit;
+
+    this.reportId = reportId;
+    let receivedCrimeFormValue = {
+
+      status: status,
+
+    }
+
+    this.receivedCrimeForm.patchValue(receivedCrimeFormValue);
+
+    this.getCrimeImageVideoByIdList();
+
+  }
+
+  updateCrimeStatus() {
+
+    this.spinner.show();
+
+    this.receiveCrimeService.updateCrimeStatusById(this.reportId,this.status?.value).subscribe(
+      (res) => {
+
+        let result: any = res;
+
+        Swal.fire("Info", "Updated", "info");
+        this.initialReceiveCrimeList(this.currentPage);
+        this.spinner.hide();
+
+      },
+      (error) => {
+        this.spinner.hide();
+        console.log("error: ", error)
+        Swal.fire('Warning', 'Something went wrong', 'warning');
+      }
+    );
+
+
+
+  }
+
+  get status() {
+
+    return this.receivedCrimeForm.get('status');
+
   }
 
 }

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "incident-report.component.scss"
+    ],
+    "names": [],
+    "file": "incident-report.component.css"
+}

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,cAAc,CAAC;EAEb,QAAQ,EAAE,KAAK;EACf,MAAM,EAAE,IAAI;EACZ,KAAK,EAAE,IAAI;EACX,OAAO,EAAE,CAAC;EACV,UAAU,EAAE,kBAAkB;CAE/B;;AAED,AAAA,mBAAmB,CAAC;EAElB,OAAO,EAAE,CAAC;EACV,UAAU,EAAE,kBAAkB;EAC9B,gBAAgB,EAAE,OAAa;EAC/B,OAAO,EAAE,CAAC;CAEX",
+    "sources": [
+        "scroll-to-top.component.scss"
+    ],
+    "names": [],
+    "file": "scroll-to-top.component.css"
+}

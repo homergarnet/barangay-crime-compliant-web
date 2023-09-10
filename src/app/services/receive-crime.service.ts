@@ -26,4 +26,15 @@ export class ReceiveCrimeService {
 
   }
 
+  updateCrimeStatusById(id: number = 0, status: string = '') {
+    return this.http.put(this.API_URL + `api/update-crime-status?id=${id}&status=${status}`, httpOptions);
+
+  }
+
+  getCrimeImageVideoByIdList(crimeCompliantReportId: number) {
+
+    return this.http.get(this.API_URL + `api/get-crime-image?crimeCompliantReportId=${crimeCompliantReportId}`);
+
+  }
+
 }

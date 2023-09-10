@@ -6,12 +6,13 @@
           <div class="card-body">
             <h1>Announcement</h1>
             <hr>
-            <p class="h3">malacañang Palace Manila</p>
-            <p class="h4">By The President Of The Philippines</p>
-            <p class="h2">Proclamation NO. 233</p>
-            <p class="h6">
-              DECLARING FRIDAY, 26 MAY 2023, A SPECIAL (NON-WORKING) DAY IN THE PROVINCE OF TARLAC
-            </p>
+            <form [formGroup]="announcementForm" (ngSubmit)="onCreateAnnouncement()">
+              <angular-editor id="description" formControlName="description" [config]="editorConfig"></angular-editor>
+              <button class="btn btn-primary" type="submit">
+                <!-- <span class="iconify" data-icon="iconoir:save-floppy-disk"></span> -->
+                Save
+              </button>
+            </form>
           </div>
         </div>
       </div>
