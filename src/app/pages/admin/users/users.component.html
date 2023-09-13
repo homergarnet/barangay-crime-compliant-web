@@ -1,85 +1,122 @@
-<div class="header bg-gradient-success pb-8 pt-5 pt-md-8">
+<!-- bg-gradient-danger put this if you want nice background -->
+<div class="header pb-8 pt-5 pt-md-8">
+  <form [formGroup]="userForm">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-12 mb-5 mb-xl-0">
+          <div class="card shadow">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h1 class="">Reporters information</h1>
+                </div>
+                <div class="col text-right">
+                  <!-- <a href="#!" class="btn btn-sm btn-primary">See all</a> -->
 
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-xl-12 mb-5 mb-xl-0">
-        <div class="card shadow">
-          <div class="card-header border-0">
-            <div class="row align-items-center">
-              <div class="col">
-                <h1 class="">Reporters information</h1>
+                </div>
               </div>
-              <div class="col text-right">
-                <!-- <a href="#!" class="btn btn-sm btn-primary">See all</a> -->
+              <div class="row align-items-center mb-2">
+                <div class="col">
+                  <input class="form-control" type="text" placeholder="First Name" formControlName="firstName" (change)="onChangeFirstNameField()"/>
+                </div>
+                <div class="col text-right">
+                  <!-- <a href="#!" class="btn btn-sm btn-primary">See all</a> -->
+                  <input class="form-control" type="text" placeholder="MI" formControlName="middleName" (change)="onChangeMiddleNameField()"/>
+                </div>
+                <div class="col text-right">
+                  <!-- <a href="#!" class="btn btn-sm btn-primary">See all</a> -->
+                  <input class="form-control" type="text" placeholder="Last Name" formControlName="lastName" (change)="onChangeLastNameField()"/>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col">
+                  <select class="form-control" formControlName="barangay" (change)="onChangeBarangayField()">
+                    <option
 
+                      *ngFor="let Barangay of barangayList"
+                      value="{{ Barangay.BarangayCode }}"
+                    >
+                    {{ Barangay.BarangayName }}
+                  </option>
+                  </select>
+                </div>
               </div>
             </div>
-            <div class="row align-items-center mb-2">
-              <div class="col">
-                <input class="form-control" type="text" placeholder="First Name"/>
-              </div>
-              <div class="col text-right">
-                <!-- <a href="#!" class="btn btn-sm btn-primary">See all</a> -->
-                <input class="form-control" type="text" placeholder="MI"/>
-              </div>
-              <div class="col text-right">
-                <!-- <a href="#!" class="btn btn-sm btn-primary">See all</a> -->
-                <input class="form-control" type="text" placeholder="Last Name"/>
-              </div>
+            <div class="table-responsive">
+              <!-- Projects table -->
+              <table class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Selfie Id</th>
+                    <th scope="col">Valid Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Barangay</th>
+                    <th scope="col">Contact</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of userInfoListFilteredList">
+                    <th scope="row">CN-2023 {{ data.Id }}</th>
+                    <td>
+                      <img class="img-fluid img-c-w-h" src="{{ API_URL + data.SelfieIdImage }}" *ngIf="data.SelfieIdImage != null"/>
+                    </td>
+                    <td>
+                      <img class="img-fluid img-c-w-h" src="{{ API_URL + data.ValidIdImage }}" *ngIf="data.ValidIdImage != null"/>
+                    </td>
+                    <td>{{ data.FirstName + ' ' + data.MiddleName + ' ' + data.LastName }}</td>
+                    <td>{{ data.HouseNo + ' ' + data.Street + ' ' + data.Village + ' ' + data.UnitFloor}}</td>
+                    <td>{{ data.BarangayName }}</td>
+                    <td>{{ data.Phone }}</td>
+
+                    <td>
+                      <!-- <button
+                        class="btn btn-primary mr-2"
+                        type="button"
+                        (click)="
+                          showHideModal('Edit', true, data.ReportId, data.Status)
+                        "
+                      >
+                        Edit
+                      </button> -->
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div class="row align-items-center">
-              <div class="col">
-                <select class="form-control">
-                  <option value="" selected>Barangay</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="table-responsive">
-            <!-- Projects table -->
-            <table class="table align-items-center table-flush">
-              <thead class="thead-light">
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Address</th>
-                  <th scope="col">Barangay</th>
-                  <th scope="col">Contact</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>juan</td>
-                  <td>sample</td>
-                  <td>
-                    <!-- <i class="fas fa-arrow-up text-success mr-3"></i>  -->
-                   Barangay A
-                  </td>
-                  <td>09123456789</td>
-                  <td>
-                    <button class="btn btn-primary" type="button">View Details</button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>juan</td>
-                  <td>sample</td>
-                  <td>
-                    <!-- <i class="fas fa-arrow-up text-success mr-3"></i>  -->
-                   Barangay A
-                  </td>
-                  <td>09123456789</td>
-                  <td>
-                    <button class="btn btn-primary" type="button">View Details</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
       </div>
+      <div class="row mb-2">
+        <div class="col">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+              <li class="page-item">
+                <a class="page-link btn" (click)="onMinusCurrentPage()">Prev</a>
+              </li>
+              <li
+                class="page-item"
+                *ngFor="let numberOfPagesArr of numberOfPagesArr; let i = index"
+              >
+                <a class="page-link btn" (click)="onClickcurrentPage(i + 1)">{{
+                  i + 1
+                }}</a>
+              </li>
+              <li class="page-item">
+                <a
+                  class="page-link btn"
+                  (click)="onAddCurrentPage()"
+                  *ngIf="numberOfPages != 0"
+                  >Next</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
     </div>
-  </div>
+  </form>
+
 </div>

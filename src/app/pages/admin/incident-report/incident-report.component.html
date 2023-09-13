@@ -1,4 +1,5 @@
-<div class="header bg-gradient-success pb-8 pt-5 pt-md-8">
+<!-- bg-gradient-danger put this if you want nice background -->
+<div class="header pb-8 pt-5 pt-md-8">
 
   <div class="container-fluid">
     <div class="row">
@@ -14,20 +15,29 @@
 
               </div>
             </div>
-            <div class="row align-items-center">
-              <div class="col">
-                <input class="form-control" type="date" placeholder="Date"/>
-              </div>
-              <div class="col text-right">
-                <!-- <a href="#!" class="btn btn-sm btn-primary">See all</a> -->
-                <input class="form-control" type="text" placeholder="Year"/>
-              </div>
-              <div class="col text-right">
-                <!-- <a href="#!" class="btn btn-sm btn-primary">See all</a> -->
-                <input class="form-control" type="text" placeholder="Estimated Time"/>
-              </div>
-            </div>
+            <form [formGroup]="incidentReportForm">
+              <div class="row align-items-center">
+                <div class="col-md">
+                  <label for="date" class="mb-1">Date</label>
+                  <input id="date" class="form-control" type="date" formControlName="date" (change)="dateYearTimeChange()" placeholder="Date"/>
+                </div>
+                <div class="col-md">
+                  <label for="year" class="mb-1">Year</label>
+                  <select id="year" class="form-control" formControlName="year" (change)="dateYearTimeChange()">
+                    <option *ngFor="let year of years" value="{{ year }}">{{ year }}</option>
+                  </select>
 
+                </div>
+                <div class="col-md">
+                  <label for="timeStart" class="mb-1">Time Start</label>
+                  <input id="timeStart" class="form-control" type="time" formControlName="timeStart" (change)="dateYearTimeChange()" placeholder="Estimated Time Start"/>
+                </div>
+                <div class="col-md">
+                  <label for="timeEnd" class="mb-1">Time End</label>
+                  <input id="timeEnd" class="form-control" type="time" formControlName="timeEnd" (change)="dateYearTimeChange()" placeholder="Estimated Time End"/>
+                </div>
+              </div>
+            </form>
 
           </div>
           <div class="table-responsive">
@@ -36,89 +46,24 @@
               <thead class="thead-light">
                 <tr>
                   <th scope="col">Incident Type</th>
-                  <th scope="col">Murder</th>
-                  <th scope="col">Homicide</th>
-                  <th scope="col">Physical Injury</th>
-                  <th scope="col">Robbery</th>
-                  <th scope="col">Rape</th>
-                  <th scope="col">Theft</th>
-                  <th scope="col">Camapping</th>
-                  <th scope="col">Acidents (Motorcycle and Vechicle)</th>
-                  <th scope="col">Total</th>
+                  <th scope="col" *ngFor="let crimeCompliant of crimeCompliantList">{{ crimeCompliant.Title }}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">Incidents Reported</th>
-                  <td>2</td>
-                  <td>4</td>
-                  <td>
-                    <!-- <i class="fas fa-arrow-up text-success mr-3"></i>  -->
-                   10
-                  </td>
-                  <td>8</td>
-                  <td>6</td>
-                  <td>John Doe</td>
-                  <td>
-                    15
-                  </td>
-                  <td>
-                    3
-                  </td>
-                  <td>
-                    12
-                  </td>
-                  <td>
-                    60
-                  </td>
+                  <th scope="col">Incidents Reported</th>
+                  <th *ngFor="let incidentReport of incidentReportList.IncidentsReported">{{ incidentReport }}</th>
+
                 </tr>
                 <tr>
-                  <th scope="row">Incidents Resolved</th>
-                  <td>2</td>
-                  <td>4</td>
-                  <td>
-                    <!-- <i class="fas fa-arrow-up text-success mr-3"></i>  -->
-                   10
-                  </td>
-                  <td>8</td>
-                  <td>6</td>
-                  <td>John Doe</td>
-                  <td>
-                    15
-                  </td>
-                  <td>
-                    3
-                  </td>
-                  <td>
-                    12
-                  </td>
-                  <td>
-                    60
-                  </td>
+                  <th scope="col">Incidents Resolved</th>
+                  <th *ngFor="let incidentReport of incidentReportList.IncidentsResolved">{{ incidentReport }}</th>
+
                 </tr>
                 <tr>
-                  <th scope="row">Incidents Under Investigation</th>
-                  <td>2</td>
-                  <td>4</td>
-                  <td>
-                    <!-- <i class="fas fa-arrow-up text-success mr-3"></i>  -->
-                   10
-                  </td>
-                  <td>8</td>
-                  <td>6</td>
-                  <td>John Doe</td>
-                  <td>
-                    15
-                  </td>
-                  <td>
-                    3
-                  </td>
-                  <td>
-                    12
-                  </td>
-                  <td>
-                    60
-                  </td>
+                  <th scope="col">Incidents Under Investigation</th>
+                  <th *ngFor="let incidentReport of incidentReportList.IncidentsUnderInvestigation">{{ incidentReport }}</th>
+
                 </tr>
               </tbody>
             </table>

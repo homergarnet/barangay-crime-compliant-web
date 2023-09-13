@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { BarangayAnnouncementService } from 'src/app/services/barangay-announcement.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-announcement',
@@ -45,12 +49,40 @@ export class AnnouncementComponent implements OnInit {
     ],
   };
 
-  constructor() {}
+  constructor(
+    private toastr: ToastrService,
+    private barangayAnnouncementService: BarangayAnnouncementService,
+
+    private spinner: NgxSpinnerService,
+
+  ) {}
 
   ngOnInit(): void {}
 
   onCreateAnnouncement(): void {
+    this.spinner.show();
 
+    this.barangayAnnouncementService.createAnnouncement(this.description?.value).subscribe(
+      (res) => {
+
+        let result: any = res;
+        console.log("result: ", result);
+        let announcementFormValue = {
+
+          description: '',
+
+        }
+
+        this.announcementForm.patchValue(announcementFormValue);
+        this.toastr.success('Successfully created announcement');
+        this.spinner.hide();
+
+      },
+      (error) => {
+        this.spinner.hide();
+        Swal.fire('Warning', 'Something went wrong', 'warning');
+      }
+    );
   }
 
   get description() {

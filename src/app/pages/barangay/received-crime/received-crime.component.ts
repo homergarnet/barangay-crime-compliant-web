@@ -13,8 +13,6 @@ import { environment } from 'src/environments/environment';
 })
 export class ReceivedCrimeComponent implements OnInit {
 
-
-
   receiveCrimeList: any[] = [];
   receiveCrimeFilteredList: any[] = [];
   crimeImageByIdList: any[] = [];
@@ -122,7 +120,7 @@ export class ReceivedCrimeComponent implements OnInit {
 
     this.spinner.show();
 
-    this.receiveCrimeService.receiveCrimeList('','',currentPageVal == 0? this.currentPage : currentPageVal,resultPerPageVal == 0 ? this.resultPerPage : resultPerPageVal).subscribe(
+    this.receiveCrimeService.receiveCrimeList('crime','not closed completed','',currentPageVal == 0? this.currentPage : currentPageVal,resultPerPageVal == 0 ? this.resultPerPage : resultPerPageVal).subscribe(
       (res) => {
 
         let result: any = res;

@@ -6,8 +6,8 @@
   </div>
 </div> -->
 
-
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+<!-- bg-gradient-danger put this if you want nice background -->
+<div class="header pb-8 pt-5 pt-md-8">
   <div class="container-fluid">
     <div class="header-body">
       <!-- Card stats -->
@@ -18,7 +18,7 @@
               <div class="row">
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">Total of Crimes</h5>
-                  <span class="h2 font-weight-bold mb-0">350,897</span>
+                  <span class="h2 font-weight-bold mb-0">{{ totalDashboardObj.TotalOfCrimes }}</span>
                 </div>
                 <div class="col-auto">
                   <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
@@ -39,7 +39,7 @@
               <div class="row">
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">Total of Complaints</h5>
-                  <span class="h2 font-weight-bold mb-0">2,356</span>
+                  <span class="h2 font-weight-bold mb-0">{{ totalDashboardObj.TotalOfCompliant }}</span>
                 </div>
                 <div class="col-auto">
                   <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
@@ -60,7 +60,7 @@
               <div class="row">
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">Total of Users</h5>
-                  <span class="h2 font-weight-bold mb-0">924</span>
+                  <span class="h2 font-weight-bold mb-0">{{ totalDashboardObj.TotalOfUsers }}</span>
                 </div>
                 <div class="col-auto">
                   <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
@@ -79,7 +79,7 @@
     </div>
   </div>
 </div>
-<div class="container-fluid mt--7">
+<!-- <div class="container-fluid mt--7">
   <div class="row">
     <div class="col-xl-8 mb-5 mb-xl-0">
       <div class="card bg-gradient-default shadow">
@@ -108,9 +108,9 @@
           </div>
         </div>
         <div class="card-body">
-          <!-- Chart -->
+       Chart
           <div class="chart">
-            <!-- Chart wrapper -->
+            Chart wrapper
             <canvas id="chart-sales" class="chart-canvas"></canvas>
           </div>
         </div>
@@ -127,7 +127,7 @@
           </div>
         </div>
         <div class="card-body">
-          <!-- Chart -->
+           Chart
           <div class="chart">
             <canvas id="chart-orders" class="chart-canvas"></canvas>
           </div>
@@ -149,7 +149,7 @@
           </div>
         </div>
         <div class="table-responsive">
-          <!-- Projects table -->
+          Projects table
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
               <tr>
@@ -248,7 +248,7 @@
           </div>
         </div>
         <div class="table-responsive">
-          <!-- Projects table -->
+          Projects table
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
               <tr>
@@ -354,4 +354,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

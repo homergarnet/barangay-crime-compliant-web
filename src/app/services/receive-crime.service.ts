@@ -20,9 +20,9 @@ export class ReceiveCrimeService {
 
   constructor(private http: HttpClient) { }
 
-  receiveCrimeList(reportType: string = '', keyword: string = '', page: number, pageSize: number): Observable<any> {
+  receiveCrimeList(reportType: string = '', status: string = '', keyword: string = '', page: number, pageSize: number): Observable<any> {
 
-    return this.http.get(this.API_URL + `api/get-manage-crime?reportType=${reportType}&keyword=${keyword}&page=${page}&pageSize=${pageSize}`);
+    return this.http.get(this.API_URL + `api/get-manage-crime?reportType=${reportType}&status=${status}&keyword=${keyword}&page=${page}&pageSize=${pageSize}`);
 
   }
 

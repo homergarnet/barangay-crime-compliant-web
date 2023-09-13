@@ -1,13 +1,132 @@
-<div class="header bg-gradient-success pb-8 pt-5 pt-md-8">
-
+<!-- bg-gradient-danger put this if you want nice background -->
+<div class="header pb-8 pt-5 pt-md-8">
   <div class="container-fluid">
+    <div class="row">
+      <div
+        id="exampleModalCenter"
+        class="modal fade {{
+          this.isModalShow == true ? 'show display-modal' : 'hide-modal'
+        }}"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalCenterTitle"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">
+                {{ modalTitle }}
+              </h5>
+              <button
+                type="button"
+                class="close"
+                (click)="showHideModal('', false)"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body scrollable-div">
+              <!-- Design 1 -->
+              <ng-template #edit>
+                <form [formGroup]="receivedCrimeForm">
+                  <div class="row mb-2">
+                    <div class="col">
+                      <label for="status" class="mb-1">Status</label>
+                      <select
+                        id="status"
+                        class="form-control"
+                        formControlName="status"
+                      >
+                        <option
+                          value="active"
+                          *ngFor="let status of statusValue"
+                          value="{{ status.value }}"
+                        >
+                          {{ status.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <button
+                        class="btn btn-primary col-12"
+                        type="button"
+                        (click)="updateCrimeStatus()"
+                      >
+                        Update
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </ng-template>
+              <!-- Design 2 -->
+              <ng-template #viewDetails>
+                <div class="row">
+                  <div class="col text-center">
+                    <!-- <h2>Images</h2>
+
+
+                    <h2>Videos</h2> -->
+                    <ng-container *ngFor="let image of crimeImageByIdList">
+                      <img
+                        class="img-fluid mb-2"
+                        [src]="API_URL + image.Image"
+                      />
+                    </ng-container>
+                    <ng-container *ngFor="let video of crimeVideoByIdList">
+                      <video
+                        class="width-100-p img-asset-media-height mb-2"
+                        [src]="API_URL + video.Image"
+                        controls
+                      >
+                        Your browser does not support the video tag.
+                      </video>
+                    </ng-container>
+                  </div>
+                </div>
+              </ng-template>
+
+              <!-- Display the selected design -->
+              <ng-container
+                *ngTemplateOutlet="showEdit ? edit : viewDetails"
+              ></ng-container>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="showHideModal('', false)"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="row">
       <div class="col-xl-12 mb-5 mb-xl-0">
         <div class="card shadow">
           <div class="card-header border-0">
             <div class="row align-items-center">
               <div class="col">
-                <h1 class="">Solved/completed report prototype</h1>
+                <h1 class="">Received Crime</h1>
+                <!-- <img class="license_icon" [src]="imageLink" /> -->
+              </div>
+
+              <div class="col text-right">
+                <!-- <a href="#!" class="btn btn-sm btn-primary">See all</a> -->
+                <input
+                  class="form-control"
+                  type="search"
+                  placeholder="Search"
+                  (keyup)="applyFilter($event)"
+                />
               </div>
             </div>
           </div>
@@ -28,64 +147,70 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">CR-2023-001</th>
-                  <td>2023-05-02</td>
-                  <td>2023-05-15</td>
+                <tr *ngFor="let data of receiveCrimeFilteredList">
+                  <th scope="row">CR-2023 {{ data.ReportIdStr }}</th>
+                  <td>{{ data.Date | date : "yyyy-MM-dd" }}</td>
+                  <td>{{ data.DateResolved | date : "yyyy-MM-dd" }}</td>
                   <td>
                     <!-- <i class="fas fa-arrow-up text-success mr-3"></i>  -->
-                    Theft
+                    {{ data.Category }}
                   </td>
-                  <td>Stolen Laptop and personal belongings from a parked vehicle near Elm Street.</td>
-                  <td>Stolen Laptop and personal belongings from a parked vehicle near Elm Street.</td>
-                  <td>Closed</td>
+                  <td>{{ data.Description }}</td>
+                  <td>{{ data.Resolution }}</td>
+                  <td>{{ data.Status }}</td>
 
                   <td>
-                    <button class="btn btn-primary mr-2" type="button">Edit</button>
-                    <button class="btn btn-success" type="button">View Details</button>
+                    <button
+                      class="btn btn-primary mr-2"
+                      type="button"
+                      (click)="
+                        showHideModal('Edit', true, data.ReportId, data.Status)
+                      "
+                    >
+                      Edit
+                    </button>
+                    <button
+                      class="btn btn-success"
+                      type="button"
+                      (click)="
+                        showHideModal('View Details', false, data.ReportId)
+                      "
+                    >
+                      View Details
+                    </button>
                   </td>
-
-                </tr>
-                <tr>
-                  <th scope="row">CR-2023-002</th>
-                  <td>2023-05-02</td>
-                  <td>2023-05-15</td>
-                  <td>
-                    <!-- <i class="fas fa-arrow-up text-success mr-3"></i>  -->
-                    Theft
-                  </td>
-                  <td>Stolen Laptop and personal belongings from a parked vehicle near Elm Street.</td>
-                  <td>Stolen Laptop and personal belongings from a parked vehicle near Elm Street.</td>
-                  <td>Closed</td>
-
-                  <td>
-                    <button class="btn btn-primary mr-2" type="button">Edit</button>
-                    <button class="btn btn-success" type="button">View Details</button>
-                  </td>
-
-                </tr>
-                <tr>
-                  <th scope="row">CR-2023-003</th>
-                  <td>2023-05-02</td>
-                  <td>2023-05-15</td>
-                  <td>
-                    <!-- <i class="fas fa-arrow-up text-success mr-3"></i>  -->
-                    Theft
-                  </td>
-                  <td>Stolen Laptop and personal belongings from a parked vehicle near Elm Street.</td>
-                  <td>Stolen Laptop and personal belongings from a parked vehicle near Elm Street.</td>
-                  <td>Closed</td>
-
-                  <td>
-                    <button class="btn btn-primary mr-2" type="button">Edit</button>
-                    <button class="btn btn-success" type="button">View Details</button>
-                  </td>
-
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <li class="page-item">
+              <a class="page-link btn" (click)="onMinusCurrentPage()">Prev</a>
+            </li>
+            <li
+              class="page-item"
+              *ngFor="let numberOfPagesArr of numberOfPagesArr; let i = index"
+            >
+              <a class="page-link btn" (click)="onClickcurrentPage(i + 1)">{{
+                i + 1
+              }}</a>
+            </li>
+            <li class="page-item">
+              <a
+                class="page-link btn"
+                (click)="onAddCurrentPage()"
+                *ngIf="numberOfPages != 0"
+                >Next</a
+              >
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>

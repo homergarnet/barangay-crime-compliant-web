@@ -7,6 +7,10 @@ import {
   chartExample1,
   chartExample2
 } from "../../../variables/charts";
+import { BarangayDashboardService } from 'src/app/services/barangay-dashboard.service';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -35,14 +39,55 @@ export class HomeComponent implements OnInit {
   public clicked: boolean = true;
   public clicked1: boolean = false;
 
+  totalDashboardObj: any = {
+    TotalOfCrimes: 0,
+    TotalOfCompliant: 0,
+    TotalOfUsers: 0
+  };
+
   public updateOptions() {
     this.salesChart.data.datasets[0].data = this.data;
     this.salesChart.update();
   }
 
-  constructor() { }
+  constructor(
+    private barangayDashboardService: BarangayDashboardService,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
+
+  ) { }
 
   ngOnInit(): void {
+
+    this.initialTotalDashboard();
+    this.initialChart();
+
+  }
+
+  initialTotalDashboard() {
+
+    this.spinner.show();
+
+    this.barangayDashboardService.getTotalDashboardCount().subscribe(
+      (res) => {
+
+        let result: any = res;
+        this.totalDashboardObj.TotalOfCrimes = result.TotalOfCrimes;
+        this.totalDashboardObj.TotalOfCompliant = result.TotalOfCompliant;
+        this.totalDashboardObj.TotalOfUsers = result.TotalOfUsers;
+        this.spinner.hide();
+      },
+      (error) => {
+
+        this.spinner.hide();
+        Swal.fire('Warning', 'Something went wrong', 'warning');
+
+      }
+    );
+
+  }
+
+  initialChart(): void {
 
     this.datasets = [
       [0, 20, 10, 30, 15, 40, 20, 60, 60],
@@ -69,6 +114,7 @@ export class HomeComponent implements OnInit {
 			options: chartExample1.options,
 			data: chartExample1.data
 		});
+
   }
 
 }
