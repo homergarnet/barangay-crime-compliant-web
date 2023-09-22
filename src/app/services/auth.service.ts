@@ -19,8 +19,7 @@ const httpOptions = {
 export class AuthService {
 
   API_URL: string = environment.apiUrl;
-
-  private authLocalStorageToken = 'MARKET_PLACE_USER';
+  helper: any = new JwtHelperService();
   public loginTypeSubject$ = new BehaviorSubject<string>('');
   constructor(
     private http: HttpClient,
@@ -34,17 +33,15 @@ export class AuthService {
     const token = localStorage.getItem(pageType + '_token') as string;
     let parseToken = JSON.parse(token);
 
-    const helper = new JwtHelperService();
-
     if(parseToken == null) {
 
       this.loginTypeSubject$.next('');
       return false;
 
-    } else if(helper.isTokenExpired(parseToken)) {
+    } else if(this.helper.isTokenExpired(parseToken)) {
 
       this.loginTypeSubject$.next('');
-      this.clearSession();
+      this.clearSession(pageType);
 
       if(pageType == 'compliant'){
 
@@ -64,7 +61,7 @@ export class AuthService {
 
       }
 
-      const isExpired = helper.isTokenExpired(parseToken);
+      const isExpired = this.helper.isTokenExpired(parseToken);
       return isExpired;
 
     }
@@ -72,7 +69,7 @@ export class AuthService {
     else {
 
       this.loginTypeSubject$.next(pageType);
-      const isExpired = helper.isTokenExpired(parseToken);
+      const isExpired = this.helper.isTokenExpired(parseToken);
       return !isExpired;
 
     }
@@ -85,16 +82,14 @@ export class AuthService {
 
     this.loginTypeSubject$.next(pageType);
     // const user: UserModel = jwt_decode(result.access_token);
-    localStorage.setItem(this.authLocalStorageToken, JSON.stringify(result));
-
     localStorage.setItem(pageType + "_token", JSON.stringify(result));
 
   }
 
-  clearSession(): void {
+  clearSession(pageType: string): void {
 
-    localStorage.clear();
-
+    // localStorage.clear();
+    localStorage.removeItem(pageType + "_token");
   }
 
   redirectToPage(pageType: string): void {
@@ -113,7 +108,7 @@ export class AuthService {
 
   logout(pageType: string = '') {
 
-    this.clearSession();
+    this.clearSession(pageType);
     this.loginTypeSubject$.next('');
     if(pageType == 'compliant'){
 
@@ -139,6 +134,14 @@ export class AuthService {
 
     return this.http.get(this.API_URL + `api/get-current-user-personal-info`);
 
+  }
+
+  getAdminDecodedToken(): any {
+    const token = localStorage.getItem('admin_token'); // Adjust this to your token retrieval logic
+    if (token && !this.helper.isTokenExpired(token)) {
+      return this.helper.decodeToken(token);
+    }
+    return null;
   }
 
 }
