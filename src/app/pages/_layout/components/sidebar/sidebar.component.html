@@ -88,7 +88,7 @@
             <span>Support</span>
           </a> -->
           <!-- <div class="dropdown-divider"></div> -->
-          <a href="#!" class="dropdown-item">
+          <a href="#" class="dropdown-item">
             <i class="ni ni-user-run"></i>
             <span>Logout</span>
           </a>
@@ -231,7 +231,7 @@
               <i class="ni ni-spaceship"></i> Reports(Generated Report)
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="this.adminType == 'admin'">
             <a
               class="nav-link"
               routerLinkActive="active"
@@ -243,10 +243,8 @@
         </ul>
 
         <!-- Divider -->
-        <hr class="my-3" />
-        <!-- Heading -->
+        <!-- <hr class="my-3" />
         <h6 class="navbar-heading text-muted">Settings</h6>
-        <!-- Navigation -->
         <ul class="navbar-nav mb-md-3">
           <li class="nav-item">
             <a
@@ -257,7 +255,7 @@
               <i class="ni ni-spaceship"></i> Account Settings
             </a>
           </li>
-        </ul>
+        </ul> -->
       </ng-container>
       <ng-container *ngIf="accountType == 'barangay'">
         <ul class="navbar-nav mb-md-3">

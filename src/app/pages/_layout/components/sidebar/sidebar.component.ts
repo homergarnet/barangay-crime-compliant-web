@@ -28,6 +28,7 @@ export class SidebarComponent implements OnInit {
   routesObj: any = {};
   public menuItems: any[];
   public isCollapsed = true;
+  adminType: any;
 
   constructor(
     private router: Router,
@@ -42,6 +43,7 @@ export class SidebarComponent implements OnInit {
 
     })
 
+    this.adminType = this.authService.getAdminDecodedToken().UserType;
     if(this.accountType == 'admin') {
       this.routesObj = {
         path: '/admin',

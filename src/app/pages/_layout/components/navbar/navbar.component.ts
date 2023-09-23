@@ -62,8 +62,9 @@ export class NavbarComponent implements OnInit {
     return 'Dashboard';
   }
 
-  onBarangayLogout() {
-    this.authService.logout('barangay');
+  onBarangayLogout(pageType: string) {
+
+    this.authService.logout(pageType);
   }
 
 

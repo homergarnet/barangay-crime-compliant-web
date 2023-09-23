@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 
 import jwt_decode from "jwt-decode";
 import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json' ,
@@ -109,7 +110,7 @@ export class AuthService {
   logout(pageType: string = '') {
 
     this.clearSession(pageType);
-    this.loginTypeSubject$.next('');
+    this.loginTypeSubject$.next('iddle');
     if(pageType == 'compliant'){
 
       this.router.navigate(['/auth/sign-in'], { queryParams: {} });
@@ -136,7 +137,7 @@ export class AuthService {
 
   }
 
-  getAdminDecodedToken(): any {
+  getAdminDecodedToken() {
     const token = localStorage.getItem('admin_token'); // Adjust this to your token retrieval logic
     if (token && !this.helper.isTokenExpired(token)) {
       return this.helper.decodeToken(token);
