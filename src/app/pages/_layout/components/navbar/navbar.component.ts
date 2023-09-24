@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class NavbarComponent implements OnInit {
 
+  accountType: string = '';
   public focus;
   public listTitles: any[];
   public location: Location;
@@ -26,6 +27,13 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.authService.loginTypeSubject$.subscribe(res => {
+
+      this.accountType = res;
+
+    });
+
     this.listTitles = ROUTES.filter(listTitle => listTitle);
     this.getCurrentUserPersonalInfo();
   }
@@ -62,9 +70,10 @@ export class NavbarComponent implements OnInit {
     return 'Dashboard';
   }
 
-  onBarangayLogout(pageType: string) {
+  onLogout() {
 
-    this.authService.logout(pageType);
+    this.authService.logout(this.accountType);
+
   }
 
 

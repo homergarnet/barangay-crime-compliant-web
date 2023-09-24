@@ -70,4 +70,10 @@ export class SidebarComponent implements OnInit {
    });
   }
 
+  onLogout() {
+
+    this.authService.logout(this.accountType);
+
+  }
+
 }

@@ -39,7 +39,7 @@ export class LocationAlertComponent implements OnInit {
 
     var myLatlng = new google.maps.LatLng(lat, lng);
     var mapOptions = {
-      zoom: 5,
+      zoom: 8,
       scrollwheel: false,
       center: myLatlng,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -149,9 +149,6 @@ export class LocationAlertComponent implements OnInit {
         Swal.fire('Warning', 'Something went wrong', 'warning');
       }
     );
-
-
-
 
   }
 

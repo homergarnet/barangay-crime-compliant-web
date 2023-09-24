@@ -89,8 +89,8 @@ export class AuthService {
 
   clearSession(pageType: string): void {
 
-    // localStorage.clear();
-    localStorage.removeItem(pageType + "_token");
+    localStorage.clear();
+    // localStorage.removeItem(pageType + "_token");
   }
 
   redirectToPage(pageType: string): void {
@@ -110,7 +110,7 @@ export class AuthService {
   logout(pageType: string = '') {
 
     this.clearSession(pageType);
-    this.loginTypeSubject$.next('iddle');
+    this.loginTypeSubject$.next('');
     if(pageType == 'compliant'){
 
       this.router.navigate(['/auth/sign-in'], { queryParams: {} });
