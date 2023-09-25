@@ -67,7 +67,7 @@ export class AdminUsersService {
     formData.append('CityCode', compliantSignUpForm.cityMunicipality);
     formData.append('BrgyCode', compliantSignUpForm.barangay);
     formData.append('ZipCode', compliantSignUpForm.zipCode);
-    formData.append('UserType', 'compliant');
+    formData.append('UserType', 'police');
     formData.append('ResidencyType', compliantSignUpForm.residencyType);
     formData.append('Email', compliantSignUpForm.email);
 

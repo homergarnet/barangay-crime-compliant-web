@@ -265,7 +265,7 @@
               routerLinkActive="active"
               [routerLink]="['/barangay/received-crime']"
             >
-              <i class="ni ni-spaceship"></i> Received Crime
+              <i class="ni ni-spaceship"></i> Received Crime<span class="badge bg-danger text-white">{{ crimeCount }}</span>
             </a>
           </li>
           <li class="nav-item">
@@ -274,7 +274,7 @@
               routerLinkActive="active"
               [routerLink]="['/barangay/received-crime-compliant']"
             >
-              <i class="ni ni-palette"></i> Received Compliant
+              <i class="ni ni-palette"></i> Received Complaint<span class="badge bg-danger text-white">{{ compliantCount }}</span>
             </a>
           </li>
           <li class="nav-item">

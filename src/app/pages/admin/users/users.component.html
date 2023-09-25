@@ -207,6 +207,7 @@
                   <div class="col-md">
                     <label for="birthYear" class="mb-1">Year</label>
                     <select
+                      (change)="onChangeDayDateYear()"
                       id="birthYear"
                       class="form-control"
                       formControlName="birthYear"

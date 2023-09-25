@@ -26,6 +26,12 @@ export class ReceiveCrimeService {
 
   }
 
+  manageCrimeCount(reportType: string = ''): Observable<any> {
+
+    return this.http.get(this.API_URL + `api/get-manage-crime-count?reportType=${reportType}`);
+
+  }
+
   updateCrimeStatusById(id: number = 0, status: string = '') {
     return this.http.put(this.API_URL + `api/update-crime-status?id=${id}&status=${status}`, httpOptions);
 

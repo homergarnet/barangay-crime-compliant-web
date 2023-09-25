@@ -3,7 +3,12 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { AdminUsersService } from 'src/app/services/admin-users.service';
 import { passwordMatch } from 'src/validators/passwordMatch';
@@ -440,30 +445,48 @@ export class UsersComponent implements OnInit {
     this.createUserForm.setValue({
       firstName: '',
       middleName: '',
-      lastName : '',
-      birthMonth : '',
-      birthDay : '',
-      birthYear : '',
-      birthAge : '',
-      gender : '',
-      contactNumber : '',
-      validId : '',
-      selfieId : '',
-      residencyType : '',
-      houseNo : '',
-      street : '',
-      village : '',
-      unitFloor : '',
-      building : '',
-      province : '',
-      cityMunicipality : '',
-      barangay : '',
-      zipCode : '',
-      email : '',
-      username : '',
-      password : '',
-      confirmPassword : '',
+      lastName: '',
+      birthMonth: '',
+      birthDay: '',
+      birthYear: '',
+      birthAge: '',
+      gender: '',
+      contactNumber: '',
+      validId: '',
+      selfieId: '',
+      residencyType: '',
+      houseNo: '',
+      street: '',
+      village: '',
+      unitFloor: '',
+      building: '',
+      province: '',
+      cityMunicipality: '',
+      barangay: '',
+      zipCode: '',
+      email: '',
+      username: '',
+      password: '',
+      confirmPassword: '',
     });
+  }
+
+  onChangeDayDateYear(): void {
+    const birthDate: any = new Date(
+      this.birthYear?.value,
+      this.birthMonth?.value - 1,
+      this.birthDay?.value
+    );
+    const currentDate: any = new Date();
+
+    const ageInMilliseconds = currentDate - birthDate;
+    const ageInYears = Math.floor(ageInMilliseconds / 3.15576e10);
+
+    let createUserFormValue = {
+      birthAge: ageInYears,
+    };
+
+    this.createUserForm.patchValue(createUserFormValue);
   }
 
   get firstNameSearch() {
@@ -485,147 +508,99 @@ export class UsersComponent implements OnInit {
   // For Create UserForm
 
   get firstName() {
-
     return this.createUserForm.get('firstName');
-
   }
 
   get middleName() {
-
     return this.createUserForm.get('middleName');
-
   }
 
   get lastName() {
-
     return this.createUserForm.get('lastName');
-
   }
 
   get birthMonth() {
-
     return this.createUserForm.get('birthMonth');
-
   }
 
   get birthDay() {
-
     return this.createUserForm.get('birthDay');
-
   }
 
   get birthYear() {
-
     return this.createUserForm.get('birthYear');
-
   }
 
   get birthAge() {
-
     return this.createUserForm.get('birthAge');
-
   }
 
   get gender() {
-
     return this.createUserForm.get('gender');
-
   }
 
   get contactNumber() {
-
     return this.createUserForm.get('contactNumber');
-
   }
 
   get validId() {
-
     return this.createUserForm.get('validId');
-
   }
 
   get selfieId() {
-
     return this.createUserForm.get('selfieId');
-
   }
 
   get residencyType() {
-
     return this.createUserForm.get('residencyType');
-
   }
 
   get houseNo() {
-
     return this.createUserForm.get('houseNo');
-
   }
 
   get street() {
-
     return this.createUserForm.get('street');
-
   }
 
   get village() {
-
     return this.createUserForm.get('village');
-
   }
 
   get unitFloor() {
-
     return this.createUserForm.get('unitFloor');
-
   }
 
   get building() {
-
     return this.createUserForm.get('building');
-
   }
 
   get province() {
-
     return this.createUserForm.get('province');
-
   }
 
   get cityMunicipality() {
-
     return this.createUserForm.get('cityMunicipality');
-
   }
 
   get barangay() {
-
     return this.createUserForm.get('barangay');
-
   }
 
   get zipCode() {
-
     return this.createUserForm.get('zipCode');
-
   }
 
   get email() {
-
     return this.createUserForm.get('email');
-
   }
 
   get username() {
-
     return this.createUserForm.get('username');
-
   }
 
   get password() {
-
     return this.createUserForm.get('password');
-
   }
 
   //for confirmPassword

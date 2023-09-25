@@ -1,18 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ReceiveCrimeService } from 'src/app/services/receive-crime.service';
 import Swal from 'sweetalert2';
-import { DatePipe } from '@angular/common'
+import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+
 @Component({
   selector: 'app-received-crime',
   templateUrl: './received-crime.component.html',
   styleUrls: ['./received-crime.component.scss'],
 })
 export class ReceivedCrimeComponent implements OnInit {
-
+  @ViewChild('table') table: ElementRef;
   receiveCrimeList: any[] = [];
   receiveCrimeFilteredList: any[] = [];
   crimeImageByIdList: any[] = [];
@@ -28,59 +31,57 @@ export class ReceivedCrimeComponent implements OnInit {
 
   showEdit: boolean = false;
 
+  generateDataPdf: any = [];
+
+  currentDate: Date;
+
   statusValue: any = [
-
     {
-      'name': 'Active',
-      'value': 'active',
-      'isSelected': false,
+      name: 'Active',
+      value: 'active',
+      isSelected: false,
     },
     {
-      'name': 'Fake Report',
-      'value': 'fake report',
-      'isSelected': false,
+      name: 'Fake Report',
+      value: 'fake report',
+      isSelected: false,
     },
     {
-      'name': 'Resolved',
-      'value': 'resolved',
-      'isSelected': false,
+      name: 'Resolved',
+      value: 'resolved',
+      isSelected: false,
     },
     {
-      'name': 'In Progress',
-      'value': 'in progress',
-      'isSelected': true,
+      name: 'In Progress',
+      value: 'in progress',
+      isSelected: true,
     },
     {
-      'name': 'Investigation',
-      'value': 'investigation',
-      'isSelected': false,
+      name: 'Investigation',
+      value: 'investigation',
+      isSelected: false,
     },
     {
-      'name': 'Completed',
-      'value': 'completed',
-      'isSelected': false,
+      name: 'Completed',
+      value: 'completed',
+      isSelected: false,
     },
     {
-      'name': 'Close',
-      'value': 'close',
-      'isSelected': false,
+      name: 'Close',
+      value: 'close',
+      isSelected: false,
     },
-
   ];
 
   receivedCrimeForm: FormGroup = new FormGroup({
-
-
-
-    status: new FormControl('', [
-
-    ]),
-
+    status: new FormControl('', []),
   });
 
   reportId: number = 0;
 
   API_URL: string = environment.apiUrl;
+
+  pdfMake: any;
 
   constructor(
     private toastr: ToastrService,
@@ -88,55 +89,94 @@ export class ReceivedCrimeComponent implements OnInit {
 
     private spinner: NgxSpinnerService,
     private datePipe: DatePipe
-  ) {}
-
-  ngOnInit(): void {
-
-    this.initialReceiveCrimeList();
-
+  ) {
+    this.pdfMake = pdfMake;
+    this.pdfMake.vfs = pdfFonts.pdfMake.vfs;
   }
 
-    applyFilter(event: Event) {
+  ngOnInit(): void {
+    this.initialReceiveCrimeList();
+  }
 
+  applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
 
-
-
-    if(filterValue != '') {
-      let regex = new RegExp( filterValue, 'i');
-      this.receiveCrimeFilteredList = this.receiveCrimeList.filter((item: any) =>
-        regex.test(item.ReportIdStr) || regex.test(this.datePipe.transform(item.Date, 'yyyy-MM-dd')) ||
-        regex.test(item.Date) || regex.test(item.ReporterName) || regex.test(item.Category) ||
-        regex.test(item.Description) || regex.test(item.Status)
+    if (filterValue != '') {
+      let regex = new RegExp(filterValue, 'i');
+      this.receiveCrimeFilteredList = this.receiveCrimeList.filter(
+        (item: any) =>
+          regex.test(item.ReportIdStr) ||
+          regex.test(this.datePipe.transform(item.Date, 'yyyy-MM-dd')) ||
+          regex.test(item.Date) ||
+          regex.test(item.ReporterName) ||
+          regex.test(item.Category) ||
+          regex.test(item.Description) ||
+          regex.test(item.Status)
       );
     } else {
       this.receiveCrimeFilteredList = this.receiveCrimeList;
+      this.updateGenerateDatePdf();
     }
-
-
   }
 
-  initialReceiveCrimeList(currentPageVal: number = 1, resultPerPageVal: number = 10) {
+  updateGenerateDatePdf(): void {
+    this.generateDataPdf = [];
+    this.generateDataPdf = [
+      [
+        'Report Number',
+        'Date Received',
+        'Reported By',
+        'Type Of Crime',
+        'Description',
+        'Status',
+      ],
+    ];
 
+    this.receiveCrimeFilteredList.forEach((item, index) => {
+      let myArr = [
+        item.ReportIdStr,
+        item.Date,
+        item.ReporterName,
+        item.Category,
+        item.Description,
+        item.Status,
+      ];
+      this.generateDataPdf.push(myArr);
+    });
+  }
+
+  initialReceiveCrimeList(
+    currentPageVal: number = 1,
+    resultPerPageVal: number = 10
+  ) {
     this.spinner.show();
 
-    this.receiveCrimeService.receiveCrimeList('crime','not closed completed','',currentPageVal == 0? this.currentPage : currentPageVal,resultPerPageVal == 0 ? this.resultPerPage : resultPerPageVal).subscribe(
-      (res) => {
+    this.receiveCrimeService
+      .receiveCrimeList(
+        'crime',
+        'not closed completed',
+        '',
+        currentPageVal == 0 ? this.currentPage : currentPageVal,
+        resultPerPageVal == 0 ? this.resultPerPage : resultPerPageVal
+      )
+      .subscribe(
+        (res) => {
+          let result: any = res;
+          this.receiveCrimeList = result;
+          this.receiveCrimeFilteredList = result;
+          this.updateGenerateDatePdf();
+          console.log('this.receiveCrimeList: ', this.receiveCrimeList);
+          this.numberOfPages = Math.ceil(
+            this.receiveCrimeList.length / this.resultPerPage
+          );
 
-        let result: any = res;
-        this.receiveCrimeList = result;
-        this.receiveCrimeFilteredList = result;
-        console.log("this.receiveCrimeList: ", this.receiveCrimeList);
-        this.numberOfPages = Math.ceil(this.receiveCrimeList.length / this.resultPerPage);
-
-        this.spinner.hide();
-      },
-      (error) => {
-        this.spinner.hide();
-        Swal.fire('Warning', 'Something went wrong', 'warning');
-      }
-    );
-
+          this.spinner.hide();
+        },
+        (error) => {
+          this.spinner.hide();
+          Swal.fire('Warning', 'Something went wrong', 'warning');
+        }
+      );
   }
 
   getCrimeImageVideoByIdList() {
@@ -144,130 +184,147 @@ export class ReceivedCrimeComponent implements OnInit {
     this.crimeVideoByIdList = [];
     this.spinner.show();
 
-    this.receiveCrimeService.getCrimeImageVideoByIdList(this.reportId).subscribe(
-      (res) => {
+    this.receiveCrimeService
+      .getCrimeImageVideoByIdList(this.reportId)
+      .subscribe(
+        (res) => {
+          let result: any = res;
 
-        let result: any = res;
-
-        result.forEach((item, index)=>{
-          const lastDotIndex = item.Image.lastIndexOf('.');
-          if (lastDotIndex !== -1) {
-            if(item.Image.slice(lastDotIndex + 1) != 'mp4' && item.Image.slice(lastDotIndex + 1) != 'avi' &&
-            item.Image.slice(lastDotIndex + 1) != 'mkv' && item.Image.slice(lastDotIndex + 1) != 'mov' &&
-            item.Image.slice(lastDotIndex + 1) != 'wmv' && item.Image.slice(lastDotIndex + 1) != 'flv'
-            ) {
-              //push
-              this.crimeImageByIdList.push(item);
+          result.forEach((item, index) => {
+            const lastDotIndex = item.Image.lastIndexOf('.');
+            if (lastDotIndex !== -1) {
+              if (
+                item.Image.slice(lastDotIndex + 1) != 'mp4' &&
+                item.Image.slice(lastDotIndex + 1) != 'avi' &&
+                item.Image.slice(lastDotIndex + 1) != 'mkv' &&
+                item.Image.slice(lastDotIndex + 1) != 'mov' &&
+                item.Image.slice(lastDotIndex + 1) != 'wmv' &&
+                item.Image.slice(lastDotIndex + 1) != 'flv'
+              ) {
+                //push
+                this.crimeImageByIdList.push(item);
+              } else {
+                this.crimeVideoByIdList.push(item);
+              }
             } else {
-              this.crimeVideoByIdList.push(item);
             }
-          } else {
+          });
 
-          }
-
-        });
-
-        this.spinner.hide();
-      },
-      (error) => {
-        this.spinner.hide();
-        Swal.fire('Warning', 'Something went wrong', 'warning');
-      }
-    );
+          this.spinner.hide();
+        },
+        (error) => {
+          this.spinner.hide();
+          Swal.fire('Warning', 'Something went wrong', 'warning');
+        }
+      );
   }
 
   async paginationUpdateList() {
-
     const firstData = await this.initialReceiveCrimeList(this.currentPage);
 
     this.thisPageFirstResult = (this.currentPage - 1) * this.resultPerPage;
-    this.receiveCrimeFilteredList = this.receiveCrimeList.slice(this.thisPageFirstResult, this.resultPerPage * this.currentPage);
-    this.numberOfPages = Math.ceil(this.receiveCrimeList.length / this.resultPerPage);
+    this.receiveCrimeFilteredList = this.receiveCrimeList.slice(
+      this.thisPageFirstResult,
+      this.resultPerPage * this.currentPage
+    );
+    this.numberOfPages = Math.ceil(
+      this.receiveCrimeList.length / this.resultPerPage
+    );
     // [0,1,2,3,4]
-    this.numberOfPagesArr = Array(this.numberOfPages).fill(this.numberOfPages).map((x,i)=>i);
+    this.numberOfPagesArr = Array(this.numberOfPages)
+      .fill(this.numberOfPages)
+      .map((x, i) => i);
 
+    this.updateGenerateDatePdf();
   }
 
   onMinusCurrentPage(): void {
-    if(this.currentPage > 1) {
-
+    if (this.currentPage > 1) {
       this.currentPage--;
       this.paginationUpdateList();
-
     } else {
-
       this.currentPage = 1;
     }
-
   }
 
   onClickcurrentPage(num: number): void {
-
     this.currentPage = num;
     this.paginationUpdateList();
-
   }
 
   onAddCurrentPage(): void {
-
-
-    if(this.currentPage != this.numberOfPages || this.numberOfPages == 1) {
-
+    if (this.currentPage != this.numberOfPages || this.numberOfPages == 1) {
       this.currentPage++;
       this.paginationUpdateList();
-
     }
-
   }
 
-  showHideModal(modalTitle: string, showEdit: boolean, reportId: number = 0, status: string = ''): void {
-
+  showHideModal(
+    modalTitle: string,
+    showEdit: boolean,
+    reportId: number = 0,
+    status: string = ''
+  ): void {
     this.isModalShow = !this.isModalShow;
     this.modalTitle = modalTitle;
     this.showEdit = showEdit;
 
     this.reportId = reportId;
     let receivedCrimeFormValue = {
-
       status: status,
-
-    }
+    };
 
     this.receivedCrimeForm.patchValue(receivedCrimeFormValue);
 
     this.getCrimeImageVideoByIdList();
-
   }
 
   updateCrimeStatus() {
-
     this.spinner.show();
 
-    this.receiveCrimeService.updateCrimeStatusById(this.reportId,this.status?.value).subscribe(
-      (res) => {
+    this.receiveCrimeService
+      .updateCrimeStatusById(this.reportId, this.status?.value)
+      .subscribe(
+        (res) => {
+          let result: any = res;
 
-        let result: any = res;
+          Swal.fire('Info', 'Updated', 'info');
+          this.initialReceiveCrimeList(this.currentPage);
+          this.spinner.hide();
+        },
+        (error) => {
+          this.spinner.hide();
+          console.log('error: ', error);
+          Swal.fire('Warning', 'Something went wrong', 'warning');
+        }
+      );
+  }
 
-        Swal.fire("Info", "Updated", "info");
-        this.initialReceiveCrimeList(this.currentPage);
-        this.spinner.hide();
-
+  generatePDF() {
+    const documentDefinition = {
+      content: [
+        { text: 'Receive Crime', style: 'header' },
+        {
+          table: {
+            body: this.generateDataPdf,
+          },
+        },
+      ],
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          alignment: 'center',
+          margin: [0, 0, 0, 10],
+        },
       },
-      (error) => {
-        this.spinner.hide();
-        console.log("error: ", error)
-        Swal.fire('Warning', 'Something went wrong', 'warning');
-      }
-    );
+    };
 
-
-
+    const pdfDoc = this.pdfMake.createPdf(documentDefinition);
+    pdfDoc.download('receive Crime-' + Date.now() + '.pdf');
   }
 
   get status() {
-
     return this.receivedCrimeForm.get('status');
-
   }
-
 }
