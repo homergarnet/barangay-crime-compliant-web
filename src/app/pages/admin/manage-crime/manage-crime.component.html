@@ -40,7 +40,6 @@
                         formControlName="status"
                       >
                         <option
-                          value="active"
                           *ngFor="let status of statusValue"
                           value="{{ status.value }}"
                         >
@@ -117,9 +116,26 @@
               <div class="col">
                 <h1 class="">Received Crime</h1>
                 <!-- <img class="license_icon" [src]="imageLink" /> -->
+
+              </div>
+              <div class="col">
+                <select
+                id="status"
+                class="form-control"
+                (change)="applyFilter($event)"
+              >
+                <option value="" selected>none</option>
+                <option value="active">active</option>
+                <option value="fake report">fake report</option>
+                <option value="resolved">resolved</option>
+                <option value="in progress">in progress</option>
+                <option value="investigation">investigation</option>
+                <option value="completed">completed</option>
+                <option value="closed">closed</option>
+              </select>
               </div>
 
-              <div class="col text-right">
+              <div class="col">
                 <!-- <a href="#!" class="btn btn-sm btn-primary">See all</a> -->
                 <input
                   class="form-control"
@@ -154,7 +170,7 @@
                   <td>{{ data.Time }}</td>
                   <td>
                     <!-- <i class="fas fa-arrow-up text-success mr-3"></i>  -->
-                    Lat: {{ data.Lat }}  Long: {{ data.Long }}
+                    Lat: {{ data.Lat }} Long: {{ data.Long }}
                   </td>
                   <td>{{ data.Category }}</td>
                   <td>{{ data.Description }}</td>
