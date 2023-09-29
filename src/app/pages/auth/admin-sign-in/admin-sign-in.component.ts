@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -25,11 +25,13 @@ export class AdminSignInComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private renderer: Renderer2
 
   ) { }
 
   ngOnInit(): void {
+    this.renderer.addClass(document.body, 'body-image');
     this.authService.redirectToPage('admin');
     this.redirectUrl = this.activatedRoute.snapshot.queryParamMap.get('redirectUrl') || 'admin';
   }
@@ -52,6 +54,12 @@ export class AdminSignInComponent implements OnInit {
       // console.log("error: ", error);
 
     });
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.renderer.removeClass(document.body, 'body-image');
   }
 
 }

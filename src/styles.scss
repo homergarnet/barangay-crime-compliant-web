@@ -26,3 +26,24 @@ div.custom-card-size{
 .text-danger {
   color: red;
 }
+
+
+.body-image {
+  /* Set the background image URL */
+  background-image: url('./assets/images/admin-background.jpg');
+
+  /* Make the background image cover the entire screen */
+  background-size: cover;
+
+  /* Center the background image horizontally and vertically */
+  background-position: center center;
+
+  /* Prevent the background image from repeating */
+  background-repeat: no-repeat;
+
+  /* Optional: Set a background color in case the image doesn't cover the entire screen */
+  background-color: #f0f0f0; /* Replace with your desired color */
+
+  /* Optional: Fix the background image so it doesn't scroll with the content */
+  background-attachment: fixed;
+}
