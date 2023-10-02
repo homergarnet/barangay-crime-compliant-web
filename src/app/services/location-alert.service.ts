@@ -20,9 +20,9 @@ export class LocationAlertService {
 
   constructor(private http: HttpClient) { }
 
-  getLocationList(keyword: string = '', page: number, pageSize: number): Observable<any> {
+  getLocationList(status: string = '', keyword: string = '', page: number, pageSize: number): Observable<any> {
 
-    return this.http.get(this.API_URL + `api/get-location?keyword=${keyword}&page=${page}&pageSize=${pageSize}`);
+    return this.http.get(this.API_URL + `api/get-location?status=${status}&keyword=${keyword}&page=${page}&pageSize=${pageSize}`);
 
   }
 
