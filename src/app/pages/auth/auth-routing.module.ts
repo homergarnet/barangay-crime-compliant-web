@@ -4,6 +4,7 @@ import { UserSignInComponent } from './user-sign-in/user-sign-in.component';
 import { UserSignUpComponent } from './user-sign-up/user-sign-up.component';
 import { BarangaySignInComponent } from './barangay-sign-in/barangay-sign-in.component';
 import { AdminSignInComponent } from './admin-sign-in/admin-sign-in.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'admin-sign-in',
     component: AdminSignInComponent,
+  },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent,
   },
 ];
 

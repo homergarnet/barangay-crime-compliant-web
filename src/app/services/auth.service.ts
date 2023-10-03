@@ -107,6 +107,10 @@ export class AuthService {
     return this.http.post(this.API_URL + 'api/login', { Username, Password, UserType }, { ...httpOptions, responseType: 'text' });
   }
 
+  resetPassword(NewPassword: string, Email: string, Token: string): Observable<any> {
+    return this.http.put(this.API_URL + 'api/update-password', { NewPassword, Email, Token }, { ...httpOptions, responseType: 'text' });
+  }
+
   logout(pageType: string = '') {
 
     this.clearSession(pageType);

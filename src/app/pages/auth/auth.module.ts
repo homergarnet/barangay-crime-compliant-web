@@ -7,6 +7,8 @@ import { UserSignUpComponent } from './user-sign-up/user-sign-up.component';
 import { SharedModule } from '../shared/shared.module';
 import { BarangaySignInComponent } from './barangay-sign-in/barangay-sign-in.component';
 import { AdminSignInComponent } from './admin-sign-in/admin-sign-in.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+
 
 
 @NgModule({
@@ -14,7 +16,9 @@ import { AdminSignInComponent } from './admin-sign-in/admin-sign-in.component';
     UserSignInComponent,
     UserSignUpComponent,
     BarangaySignInComponent,
-    AdminSignInComponent
+    AdminSignInComponent,
+    ResetPasswordComponent,
+
   ],
   imports: [
     SharedModule,
