@@ -149,4 +149,10 @@ export class AuthService {
     return null;
   }
 
+  downloadApk(): Observable<any> {
+
+    return this.http.get(this.API_URL + `Test/download`);
+
+  }
+
 }

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthService } from 'src/app/services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +10,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+    private spinner: NgxSpinnerService,
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  downloadApk(): void {
+    this.spinner.show();
+
+    this.authService.downloadApk().subscribe(
+      (res) => {
+
+
+        this.spinner.hide();
+      },
+      (error) => {
+        this.spinner.hide();
+        // Swal.fire('Warning', 'Something went wrong', 'warning');
+      }
+    );
   }
 
 }
