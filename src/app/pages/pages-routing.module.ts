@@ -24,7 +24,7 @@ const routes: Routes = [
           import('./barangay/barangay.module').then((m) => m.BarangayModule),
       },
       {
-        path: 'compliant',
+        path: 'complaint',
         loadChildren: () =>
           import('./compliant/compliant.module').then((m) => m.CompliantModule),
       },
