@@ -151,7 +151,7 @@ export class AuthService {
 
   downloadApk(): Observable<any> {
 
-    return this.http.get(this.API_URL + `Test/download`);
+    return this.http.get(this.API_URL + `Test/api/download`);
 
   }
 

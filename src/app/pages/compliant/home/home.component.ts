@@ -19,19 +19,20 @@ export class HomeComponent implements OnInit {
   }
 
   downloadApk(): void {
-    this.spinner.show();
+    // this.spinner.show();
+    window.location.href = 'https://hellokitty2-001-site1.etempurl.com/Test/api/download';
+    window.open('https://hellokitty2-001-site1.etempurl.com/Test/api/download', '_blank');
+    // this.authService.downloadApk().subscribe(
+    //   (res) => {
 
-    this.authService.downloadApk().subscribe(
-      (res) => {
 
-
-        this.spinner.hide();
-      },
-      (error) => {
-        this.spinner.hide();
-        // Swal.fire('Warning', 'Something went wrong', 'warning');
-      }
-    );
+    //     this.spinner.hide();
+    //   },
+    //   (error) => {
+    //     this.spinner.hide();
+    //     // Swal.fire('Warning', 'Something went wrong', 'warning');
+    //   }
+    // );
   }
 
 }
