@@ -4,6 +4,7 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { BarangayAnnouncementService } from 'src/app/services/barangay-announcement.service';
+import { SignalrService } from 'src/app/services/signalr.service';
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-announcement',
@@ -53,6 +54,7 @@ export class AnnouncementComponent implements OnInit {
     private barangayAnnouncementService: BarangayAnnouncementService,
 
     private spinner: NgxSpinnerService,
+    private signalRService: SignalrService
 
   ) {}
 
@@ -71,7 +73,7 @@ export class AnnouncementComponent implements OnInit {
           description: '',
 
         }
-
+        this.signalRService.sendMessage("There is a new announcement");
         this.announcementForm.patchValue(announcementFormValue);
         this.toastr.success('Successfully created announcement');
         this.spinner.hide();
