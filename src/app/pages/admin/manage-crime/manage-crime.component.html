@@ -33,6 +33,41 @@
                 <form [formGroup]="receivedCrimeForm">
                   <div class="row mb-2">
                     <div class="col">
+                      <label for="responderName" class="mb-1">Responder</label>
+                      <ng-autocomplete
+                        formControlName="responderName"
+                        [data]="responderData"
+                        [searchKeyword]="keyword"
+                        placeholder="Select Responder"
+                        (selected)="selectEvent($event)"
+                        (inputChanged)="onChangeSearch($event)"
+                        (inputFocused)="onFocused($event)"
+                        [itemTemplate]="itemTemplate"
+                        [notFoundTemplate]="notFoundTemplate"
+                      >
+                      </ng-autocomplete>
+
+                      <ng-template #itemTemplate let-item>
+                        <a [innerHTML]="item.name"></a>
+                      </ng-template>
+
+                      <ng-template #notFoundTemplate let-notFound>
+                        <div [innerHTML]="notFound"></div>
+                      </ng-template>
+                    </div>
+                  </div>
+                  <div class="row mb-2">
+                    <div class="col">
+                      <label for="description" class="mb-1">Description</label>
+                      <textarea
+                        id="description"
+                        class="form-control"
+                        formControlName="responderDescription"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="row mb-2">
+                    <div class="col">
                       <label for="status" class="mb-1">Status</label>
                       <select
                         id="status"
@@ -116,23 +151,22 @@
               <div class="col">
                 <h1 class="">Manage Crime</h1>
                 <!-- <img class="license_icon" [src]="imageLink" /> -->
-
               </div>
               <div class="col">
                 <select
-                id="status"
-                class="form-control"
-                (change)="applyFilter($event)"
-              >
-                <option value="" selected>none</option>
-                <option value="active">active</option>
-                <option value="fake report">fake report</option>
-                <option value="resolved">resolved</option>
-                <option value="in progress">in progress</option>
-                <option value="investigation">investigation</option>
-                <option value="completed">completed</option>
-                <option value="closed">closed</option>
-              </select>
+                  id="status"
+                  class="form-control"
+                  (change)="applyFilter($event)"
+                >
+                  <option value="" selected>none</option>
+                  <option value="active">active</option>
+                  <option value="fake report">fake report</option>
+                  <option value="resolved">resolved</option>
+                  <option value="in progress">in progress</option>
+                  <option value="investigation">investigation</option>
+                  <option value="completed">completed</option>
+                  <option value="closed">closed</option>
+                </select>
               </div>
 
               <div class="col">
@@ -183,7 +217,15 @@
                       class="btn btn-primary mr-2"
                       type="button"
                       (click)="
-                        showHideModal('Edit', true, data.ReportId, data.Status)
+                        showHideModal(
+                          'Edit',
+                          true,
+                          data.ReportId,
+                          data.ResponderId,
+                          data.ResponderName,
+                          data.ResponderDescription,
+                          data.Status
+                        )
                       "
                     >
                       Edit
@@ -234,3 +276,19 @@
     </div>
   </div>
 </div>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span class="text-danger">{{ message }}</span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

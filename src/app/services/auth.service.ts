@@ -141,6 +141,11 @@ export class AuthService {
 
   }
 
+  isCurrentResponder(responderId: number = 0): Observable<any> {
+    return this.http.get(this.API_URL + `api/is-current-responder?responderId=${responderId}`);
+  }
+
+
   getAdminDecodedToken() {
     const token = localStorage.getItem('admin_token'); // Adjust this to your token retrieval logic
     if (token && !this.helper.isTokenExpired(token)) {
