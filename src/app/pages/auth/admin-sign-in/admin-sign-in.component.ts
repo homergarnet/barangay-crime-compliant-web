@@ -45,6 +45,18 @@ export class AdminSignInComponent implements OnInit {
       this.authService.setSession(result, 'admin');
 
       this.router.navigateByUrl(this.redirectUrl);
+      this.authService.createPoliceInOut('in').subscribe(res => {
+
+
+        this.spinner.hide();
+
+      }, error => {
+
+        this.spinner.hide();
+
+        // console.log("error: ", error);
+
+      });
       this.spinner.hide();
 
     }, error => {

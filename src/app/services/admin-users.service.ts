@@ -39,6 +39,12 @@ export class AdminUsersService {
 
   }
 
+  getTotalBarangayReportCount(): Observable<any> {
+
+    return this.http.get(this.API_URL + `api/get-total-barangay-report-count`);
+
+  }
+
   userRegistration(
     compliantSignUpForm: any,
     validIdFile: any,

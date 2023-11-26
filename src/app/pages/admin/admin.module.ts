@@ -12,6 +12,8 @@ import { LawAndOrderInformationComponent } from './law-and-order-information/law
 import { ReportsComponent } from './reports/reports.component';
 import { UsersComponent } from './users/users.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { SolvedCompletedReportsComponent } from './solved-completed-reports/solved-completed-reports.component';
+import { PoliceInOutComponent } from './police-in-out/police-in-out.component';
 
 
 @NgModule({
@@ -24,7 +26,9 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
     LawAndOrderInformationComponent,
     ReportsComponent,
     UsersComponent,
-    AccountSettingsComponent
+    AccountSettingsComponent,
+    SolvedCompletedReportsComponent,
+    PoliceInOutComponent
   ],
   imports: [
     SharedModule,

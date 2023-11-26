@@ -8,6 +8,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { AdminUsersService } from 'src/app/services/admin-users.service';
 import { AuthService } from 'src/app/services/auth.service';
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 @Component({
   selector: 'app-manage-crime',
   templateUrl: './manage-crime.component.html',
@@ -79,6 +81,8 @@ export class ManageCrimeComponent implements OnInit {
 
   API_URL: string = environment.apiUrl;
 
+  generateDataPdf: any = [];
+  pdfMake: any;
   keyword = 'name';
   responderData = [
     {
@@ -102,7 +106,10 @@ export class ManageCrimeComponent implements OnInit {
     private authService: AuthService,
     private spinner: NgxSpinnerService,
     private datePipe: DatePipe
-  ) {}
+  ) {
+    this.pdfMake = pdfMake;
+    this.pdfMake.vfs = pdfFonts.pdfMake.vfs;
+  }
 
   ngOnInit(): void {
     this.initialReceiveCrimeList();
@@ -126,6 +133,7 @@ export class ManageCrimeComponent implements OnInit {
       );
     } else {
       this.receiveCrimeFilteredList = this.receiveCrimeList;
+      this.updateGenerateDatePdf();
     }
   }
 
@@ -148,7 +156,7 @@ export class ManageCrimeComponent implements OnInit {
           let result: any = res;
           this.receiveCrimeList = result;
           this.receiveCrimeFilteredList = result;
-
+          this.updateGenerateDatePdf();
           this.numberOfPages = Math.ceil(
             this.receiveCrimeList.length / this.resultPerPage
           );
@@ -234,6 +242,7 @@ export class ManageCrimeComponent implements OnInit {
     this.numberOfPagesArr = Array(this.numberOfPages)
       .fill(this.numberOfPages)
       .map((x, i) => i);
+    this.updateGenerateDatePdf();
   }
 
   onMinusCurrentPage(): void {
@@ -290,7 +299,6 @@ export class ManageCrimeComponent implements OnInit {
         let result: any = res;
         let control = this.receivedCrimeForm.get('responderDescription');
         if (result === false) {
-
           control.disable();
         } else {
           control.enable();
@@ -351,6 +359,56 @@ export class ManageCrimeComponent implements OnInit {
 
   onFocused(e) {
     // do something when input is focused
+  }
+
+  generatePDF() {
+    const documentDefinition = {
+      content: [
+        { text: 'Manage Crime', style: 'header' },
+        {
+          table: {
+            body: this.generateDataPdf,
+          },
+        },
+      ],
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          alignment: 'center',
+          margin: [0, 0, 0, 10],
+        },
+      },
+    };
+
+    const pdfDoc = this.pdfMake.createPdf(documentDefinition);
+    pdfDoc.download('Manage Crime-' + Date.now() + '.pdf');
+  }
+
+  updateGenerateDatePdf(): void {
+    this.generateDataPdf = [];
+    this.generateDataPdf = [
+      [
+        'Report Number',
+        'Date Received',
+        'Reported By',
+        'Type Of Crime',
+        'Description',
+        'Status',
+      ],
+    ];
+
+    this.receiveCrimeFilteredList.forEach((item, index) => {
+      let myArr = [
+        item.ReportIdStr,
+        item.Date,
+        item.ReporterName,
+        item.Category,
+        item.Description,
+        item.Status,
+      ];
+      this.generateDataPdf.push(myArr);
+    });
   }
 
   get responderId() {

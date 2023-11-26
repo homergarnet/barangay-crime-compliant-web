@@ -11,6 +11,8 @@ import { UsersComponent } from './users/users.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { CompliantGuardsGuard } from '../auth/guards/compliant-guards.guard';
 import { AdminGuardsGuard } from '../auth/guards/admin-guards.guard';
+import { SolvedCompletedReportsComponent } from './solved-completed-reports/solved-completed-reports.component';
+import { PoliceInOutComponent } from './police-in-out/police-in-out.component';
 
 const routes: Routes = [
   {
@@ -31,6 +33,16 @@ const routes: Routes = [
   {
     path: 'crime-mapping',
     component: CrimeMappingComponent,
+    canActivate: [AdminGuardsGuard]
+  },
+  {
+    path: 'police-in-out',
+    component: PoliceInOutComponent,
+    canActivate: [AdminGuardsGuard]
+  },
+  {
+    path: 'solved-completed-reports',
+    component: SolvedCompletedReportsComponent,
     canActivate: [AdminGuardsGuard]
   },
   {

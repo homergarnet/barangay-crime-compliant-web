@@ -9,30 +9,27 @@ declare const google: any;
 @Component({
   selector: 'app-location-alert',
   templateUrl: './location-alert.component.html',
-  styleUrls: ['./location-alert.component.scss']
+  styleUrls: ['./location-alert.component.scss'],
 })
 export class LocationAlertComponent implements OnInit {
-
   currentPage: number = 1;
   resultPerPage: number = 10;
 
   constructor(
-
     private locationAlertService: LocationAlertService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private datePipe: DatePipe
-
   ) {}
 
   ngOnInit(): void {
-
     this.initialMaps();
-
   }
 
-  initialMaps(currentPageVal: number = 1, resultPerPageVal: number = 1000000): void {
-
+  initialMaps(
+    currentPageVal: number = 1,
+    resultPerPageVal: number = 1000000
+  ): void {
     let map = document.getElementById('map-canvas');
     let lat = map.getAttribute('data-lat');
     let lng = map.getAttribute('data-lng');
@@ -87,69 +84,68 @@ export class LocationAlertComponent implements OnInit {
       ],
     };
 
-    this.locationAlertService.getLocationList('not closed completed','',currentPageVal == 0? this.currentPage : currentPageVal,resultPerPageVal == 0 ? this.resultPerPage : resultPerPageVal).subscribe(
-      (res) => {
+    this.locationAlertService
+      .getLocationList(
+        'not closed completed',
+        '',
+        currentPageVal == 0 ? this.currentPage : currentPageVal,
+        resultPerPageVal == 0 ? this.resultPerPage : resultPerPageVal
+      )
+      .subscribe(
+        (res) => {
+          let result: any = res;
+          console.log('this.result: ', result);
+          map = new google.maps.Map(map, mapOptions);
+          if (result.length >= 2) {
+            result.forEach((item, index) => {
+              var marker = new google.maps.Marker({
+                position: { lat: item.Lat, lng: item.Long },
+                map: map,
+                animation: google.maps.Animation.DROP,
+                title: 'Hello World!',
+              });
 
-        let result: any = res;
-        console.log("this.result: ", result);
-        map = new google.maps.Map(map, mapOptions);
-        if(result.length >= 2) {
-          result.forEach((item, index)=> {
+              var contentString =
+                '<div class="info-window-content"><h2>Description</h2>' +
+                `<p>${item.Description}</p></div>`;
 
+              var infowindow = new google.maps.InfoWindow({
+                content: contentString,
+              });
+
+              google.maps.event.addListener(marker, 'click', function () {
+                infowindow.open(map, marker);
+              });
+            });
+          } else if (result.length == 1) {
             var marker = new google.maps.Marker({
-              position: { lat: item.Lat, lng: item.Long },
+              position: { lat: result[0].Lat, lng: result[0].Long },
               map: map,
               animation: google.maps.Animation.DROP,
               title: 'Hello World!',
             });
 
-            // var contentString =
-            //   '<div class="info-window-content"><h2>Argon Dashboard</h2>' +
-            //   '<p>A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</p></div>';
+            var contentString =
+              '<div class="info-window-content"><h2>Description</h2>' +
+              `<p>${result[0].Description}</p></div>`;
 
-            // var infowindow = new google.maps.InfoWindow({
-            //   content: contentString,
-            // });
-
-            google.maps.event.addListener(marker, 'click', function () {
-              // infowindow.open(map, marker);
+            var infowindow = new google.maps.InfoWindow({
+              content: contentString,
             });
 
-          });
-        } else if(result.length == 1){
+            google.maps.event.addListener(marker, 'click', function () {
+              infowindow.open(map, marker);
+            });
+          } else {
+            console.log('zero results:');
+          }
 
-          var marker = new google.maps.Marker({
-            position: { lat: result[0].Lat, lng: result[0].Long },
-            map: map,
-            animation: google.maps.Animation.DROP,
-            title: 'Hello World!',
-          });
-
-          // var contentString =
-          //   '<div class="info-window-content"><h2>Argon Dashboard</h2>' +
-          //   '<p>A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</p></div>';
-
-          // var infowindow = new google.maps.InfoWindow({
-          //   content: contentString,
-          // });
-
-          google.maps.event.addListener(marker, 'click', function () {
-            // infowindow.open(map, marker);
-          });
-
-        } else {
-          console.log("zero results:")
+          this.spinner.hide();
+        },
+        (error) => {
+          this.spinner.hide();
+          Swal.fire('Warning', 'Something went wrong', 'warning');
         }
-
-        this.spinner.hide();
-
-      },
-      (error) => {
-        this.spinner.hide();
-        Swal.fire('Warning', 'Something went wrong', 'warning');
-      }
-    );
-
+      );
   }
-
 }
