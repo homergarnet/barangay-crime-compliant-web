@@ -9,17 +9,15 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-announcement',
   templateUrl: './announcement.component.html',
-  styleUrls: ['./announcement.component.scss']
+  styleUrls: ['./announcement.component.scss'],
 })
 export class AnnouncementComponent implements OnInit {
-
   announcementForm: FormGroup = new FormGroup({
-
-    description: new FormControl('',[
+    description: new FormControl('', [
       Validators.required,
       Validators.minLength(1),
+      Validators.maxLength(1000),
     ]),
-
   });
   //FOR angular-editor
   editorConfig: AngularEditorConfig = {
@@ -55,52 +53,51 @@ export class AnnouncementComponent implements OnInit {
 
     private spinner: NgxSpinnerService,
     private signalRService: SignalrService
-
   ) {}
 
   ngOnInit(): void {}
 
   onCreateAnnouncement(): void {
     this.spinner.show();
-
-    this.barangayAnnouncementService.createAnnouncement(this.description?.value).subscribe(
-      (res) => {
-
-        let result: any = res;
-        console.log("result: ", result);
-        let announcementFormValue = {
-
-          description: '',
-
-        }
-        this.signalRService.sendMessage("There is a new announcement");
-        this.announcementForm.patchValue(announcementFormValue);
-        this.toastr.success('Successfully created announcement');
-        this.spinner.hide();
-
-      },
-      (error) => {
-        this.spinner.hide();
-        Swal.fire('Warning', 'Something went wrong', 'warning');
-      }
-    );
+    if (this.announcementForm.valid) {
+      this.barangayAnnouncementService
+        .createAnnouncement(this.description?.value)
+        .subscribe(
+          (res) => {
+            let result: any = res;
+            console.log('result: ', result);
+            let announcementFormValue = {
+              description: '',
+            };
+            this.signalRService.sendMessage('There is a new announcement');
+            this.announcementForm.patchValue(announcementFormValue);
+            this.toastr.success('Successfully created announcement');
+            this.spinner.hide();
+          },
+          (error) => {
+            this.spinner.hide();
+            Swal.fire('Warning', 'Something went wrong', 'warning');
+          }
+        );
+    } else {
+      this.toastr.error(
+        'Minimum Length of announcement is 1 and maximum announcement is 1000',
+        'Error'
+      );
+      this.spinner.hide();
+    }
   }
 
   get description() {
-
     return this.announcementForm.get('description');
-
   }
 
   //use this if you want to remove the validators
   clearNotRequiredValidators() {
-
     this.description?.clearValidators();
     this.description?.updateValueAndValidity();
 
     // this.initialValue?.clearValidators();
     // this.initialValue?.updateValueAndValidity();
-
   }
-
 }

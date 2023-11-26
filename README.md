@@ -31,6 +31,7 @@ Type of Statuses:
 5.) investigation
 6.) completed
 7.) closed
+8.) pending
 ---------------------------------------------------------------------------------------------------------------
 Type of Recidency:
 1.) permanent

@@ -105,16 +105,16 @@ export class CrimeMappingComponent implements OnInit {
                 title: 'Hello World!',
               });
 
-              // var contentString =
-              //   '<div class="info-window-content"><h2>Argon Dashboard</h2>' +
-              //   '<p>A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</p></div>';
+              var contentString =
+                '<div class="info-window-content"><h2>Description</h2>' +
+                `<p>${item.Description}</p></div>`;
 
-              // var infowindow = new google.maps.InfoWindow({
-              //   content: contentString,
-              // });
+              var infowindow = new google.maps.InfoWindow({
+                content: contentString,
+              });
 
               google.maps.event.addListener(marker, 'click', function () {
-                // infowindow.open(map, marker);
+                infowindow.open(map, marker);
               });
             });
           } else if (result.length == 1) {
@@ -125,16 +125,16 @@ export class CrimeMappingComponent implements OnInit {
               title: 'Hello World!',
             });
 
-            // var contentString =
-            //   '<div class="info-window-content"><h2>Argon Dashboard</h2>' +
-            //   '<p>A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</p></div>';
+            var contentString =
+              '<div class="info-window-content"><h2>Description</h2>' +
+              `<p>${result[0].Description}</p></div>`;
 
-            // var infowindow = new google.maps.InfoWindow({
-            //   content: contentString,
-            // });
+            var infowindow = new google.maps.InfoWindow({
+              content: contentString,
+            });
 
             google.maps.event.addListener(marker, 'click', function () {
-              // infowindow.open(map, marker);
+              infowindow.open(map, marker);
             });
           } else {
             console.log('zero results:');

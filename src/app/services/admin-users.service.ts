@@ -27,9 +27,21 @@ export class AdminUsersService {
 
   }
 
+  getResponderInfoList(keyword: string, page: number, pageSize: number): Observable<any> {
+
+    return this.http.get(this.API_URL + `api/get-responder-info-list?keyword=${keyword}&page=${page}&pageSize=${pageSize}`);
+
+  }
+
   getAllBarangayList(keyword: string, page: number, pageSize: number): Observable<any> {
 
     return this.http.get(this.API_URL + `api/get-barangay-by-code?keyword=${keyword}&page=${page}&pageSize=${pageSize}`);
+
+  }
+
+  getTotalBarangayReportCount(): Observable<any> {
+
+    return this.http.get(this.API_URL + `api/get-total-barangay-report-count`);
 
   }
 

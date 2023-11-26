@@ -12,14 +12,12 @@ import Swal from 'sweetalert2';
   styleUrls: ['./announcement.component.scss'],
 })
 export class AnnouncementComponent implements OnInit {
-
   announcementForm: FormGroup = new FormGroup({
-
-    description: new FormControl('',[
+    description: new FormControl('', [
       Validators.required,
       Validators.minLength(1),
+      Validators.maxLength(1000),
     ]),
-
   });
   //FOR angular-editor
   editorConfig: AngularEditorConfig = {
@@ -53,53 +51,52 @@ export class AnnouncementComponent implements OnInit {
     private toastr: ToastrService,
     private barangayAnnouncementService: BarangayAnnouncementService,
 
-    private spinner: NgxSpinnerService,
-
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {}
 
   onCreateAnnouncement(): void {
     this.spinner.show();
+    if (this.announcementForm.valid) {
+      this.barangayAnnouncementService
+        .createAnnouncement(this.description?.value)
+        .subscribe(
+          (res) => {
+            let result: any = res;
+            console.log('result: ', result);
+            let announcementFormValue = {
+              description: '',
+            };
 
-    this.barangayAnnouncementService.createAnnouncement(this.description?.value).subscribe(
-      (res) => {
-
-        let result: any = res;
-        console.log("result: ", result);
-        let announcementFormValue = {
-
-          description: '',
-
-        }
-
-        this.announcementForm.patchValue(announcementFormValue);
-        this.toastr.success('Successfully created announcement');
-        this.spinner.hide();
-
-      },
-      (error) => {
-        this.spinner.hide();
-        Swal.fire('Warning', 'Something went wrong', 'warning');
-      }
-    );
+            this.announcementForm.patchValue(announcementFormValue);
+            this.toastr.success('Successfully created announcement');
+            this.spinner.hide();
+          },
+          (error) => {
+            this.spinner.hide();
+            Swal.fire('Warning', 'Something went wrong', 'warning');
+          }
+        );
+    } else {
+      this.toastr.error(
+        'Minimum Length of announcement is 1 and maximum announcement is 1000',
+        'Error'
+      );
+      this.spinner.hide();
+    }
   }
 
   get description() {
-
     return this.announcementForm.get('description');
-
   }
 
   //use this if you want to remove the validators
   clearNotRequiredValidators() {
-
     this.description?.clearValidators();
     this.description?.updateValueAndValidity();
 
     // this.initialValue?.clearValidators();
     // this.initialValue?.updateValueAndValidity();
-
   }
-
 }

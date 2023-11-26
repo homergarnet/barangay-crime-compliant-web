@@ -343,13 +343,67 @@ export const chartExample2 = {
     }
   },
   data: {
-    labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    labels: ["Balloc", "Bamban", "Casipo", "Catagudingan", "Daldalayap", "Doclong1", "Doclong2", "Maasin", "Nagsabaran", "Pit-ao", "Poblacionnorte", "Poblacionsur"],
     datasets: [
       {
         label: "Sales",
         data: [25, 20, 30, 22, 17, 29],
-        maxBarThickness: 10
+        maxBarThickness: 10,
+        backgroundColor: [
+          'rgba(0, 51, 102, 0.7)',
+          'rgba(0, 76, 153, 0.7)',
+          'rgba(0, 102, 204, 0.7)',
+          'rgba(0, 128, 255, 0.7)',
+          'rgba(0, 153, 255, 0.7)',
+          'rgba(0, 179, 255, 0.7)',
+          'rgba(26, 102, 179, 0.7)',
+          'rgba(51, 102, 153, 0.7)',
+          'rgba(77, 102, 128, 0.7)',
+          'rgba(102, 102, 102, 0.7)',
+          'rgba(128, 128, 128, 0.7)',
+          'rgba(153, 153, 153, 0.7)',
+        ],
       }
     ]
   }
 }
+
+export const chartExample2Data = (data) => {
+  return {
+    labels: [
+      "Balloc",
+      "Bamban",
+      "Casipo",
+      "Catagudingan",
+      "Daldalayap",
+      "Doclong1",
+      "Doclong2",
+      "Maasin",
+      "Nagsabaran",
+      "Pit-ao",
+      "Poblacionnorte",
+      "Poblacionsur",
+    ],
+    datasets: [
+      {
+        label: "Sales",
+        data: data,
+        maxBarThickness: 10,
+        backgroundColor: [
+          "rgba(0, 51, 102, 0.7)",
+          "rgba(0, 76, 153, 0.7)",
+          "rgba(0, 102, 204, 0.7)",
+          "rgba(0, 128, 255, 0.7)",
+          "rgba(0, 153, 255, 0.7)",
+          "rgba(0, 179, 255, 0.7)",
+          "rgba(26, 102, 179, 0.7)",
+          "rgba(51, 102, 153, 0.7)",
+          "rgba(77, 102, 128, 0.7)",
+          "rgba(102, 102, 102, 0.7)",
+          "rgba(128, 128, 128, 0.7)",
+          "rgba(153, 153, 153, 0.7)",
+        ],
+      },
+    ],
+  };
+};
