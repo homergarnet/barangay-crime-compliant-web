@@ -56,14 +56,67 @@
                       </ng-template>
                     </div>
                   </div>
-                  <div class="row mb-2">
+                  <ng-container
+                    *ngIf="isAddnewDescription"
+                    formArrayName="responderDescription"
+                  >
+                    <div
+                      class="row mb-2"
+                      *ngFor="
+                        let control of receivedCrimeForm.get(
+                          'responderDescription'
+                        )['controls'];
+                        let i = index
+                      "
+                      [formGroupName]="i"
+                    >
+                      <div class="col">
+                        <label for="description{{ i }}" class="mb-1"
+                          >Description</label
+                        >
+                        <textarea
+                          id="description{{ i }}"
+                          class="form-control"
+                          formControlName="responderDescriptionTxt"
+                        ></textarea>
+                        <div
+                          *ngIf="
+                            responderDescription.controls[i].get(
+                              'responderDescriptionTxt'
+                            ).invalid &&
+                            (responderDescription.controls[i].get(
+                              'responderDescriptionTxt'
+                            ).dirty ||
+                              responderDescription.controls[i].get(
+                                'responderDescriptionTxt'
+                              ).touched ||
+                              submitted)
+                          "
+                          class="text-danger"
+                        >
+                          <div
+                            *ngIf="
+                              responderDescription.controls[i]
+                                .get('responderDescriptionTxt')
+                                .hasError('required')
+                            "
+                          >
+                            * Responder Description is required.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+
+                  <div class="row mb-2" *ngIf="isAddnewDescription">
                     <div class="col">
-                      <label for="description" class="mb-1">Description</label>
-                      <textarea
-                        id="description"
-                        class="form-control"
-                        formControlName="responderDescription"
-                      ></textarea>
+                      <button
+                        class="btn btn-primary"
+                        type="button"
+                        (click)="addResponderDescriptionField()"
+                      >
+                        Add new Description
+                      </button>
                     </div>
                   </div>
                   <div class="row mb-2">
@@ -239,8 +292,11 @@
                     >
                       View Details
                     </button>
-                    <button class="btn btn-secondary" type="button"
-                    (click)="generatePDF()">
+                    <button
+                      class="btn btn-secondary"
+                      type="button"
+                      (click)="generatePDF()"
+                    >
                       Download as Pdf
                     </button>
                   </td>

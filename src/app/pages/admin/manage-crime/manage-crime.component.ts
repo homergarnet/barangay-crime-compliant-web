@@ -4,7 +4,13 @@ import { ToastrService } from 'ngx-toastr';
 import { ReceiveCrimeService } from 'src/app/services/receive-crime.service';
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  FormArray,
+} from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { AdminUsersService } from 'src/app/services/admin-users.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -72,7 +78,8 @@ export class ManageCrimeComponent implements OnInit {
   receivedCrimeForm: FormGroup = new FormGroup({
     responderId: new FormControl('', []),
     responderName: new FormControl('', []),
-    responderDescription: new FormControl({ value: '', disabled: true }, []),
+    // responderDescription: new FormControl({ value: '', disabled: true }, []),
+    responderDescription: new FormArray([], [Validators.required]),
 
     status: new FormControl('', []),
   });
@@ -80,6 +87,7 @@ export class ManageCrimeComponent implements OnInit {
   reportId: number = 0;
 
   API_URL: string = environment.apiUrl;
+  isAddnewDescription: boolean = false;
 
   generateDataPdf: any = [];
   pdfMake: any;
@@ -98,6 +106,7 @@ export class ManageCrimeComponent implements OnInit {
       name: 'England',
     },
   ];
+  submitted: boolean = false;
 
   constructor(
     private toastr: ToastrService,
@@ -105,7 +114,8 @@ export class ManageCrimeComponent implements OnInit {
     private adminUsersService: AdminUsersService,
     private authService: AuthService,
     private spinner: NgxSpinnerService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private formBuilder: FormBuilder
   ) {
     this.pdfMake = pdfMake;
     this.pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -114,6 +124,7 @@ export class ManageCrimeComponent implements OnInit {
   ngOnInit(): void {
     this.initialReceiveCrimeList();
     this.initialResponderList();
+    this.initialFormBuilder();
   }
 
   applyFilter(event: Event) {
@@ -156,6 +167,10 @@ export class ManageCrimeComponent implements OnInit {
           let result: any = res;
           this.receiveCrimeList = result;
           this.receiveCrimeFilteredList = result;
+          console.log(
+            'this.receiveCrimeFilteredList: ',
+            this.receiveCrimeFilteredList
+          );
           this.updateGenerateDatePdf();
           this.numberOfPages = Math.ceil(
             this.receiveCrimeList.length / this.resultPerPage
@@ -185,6 +200,27 @@ export class ManageCrimeComponent implements OnInit {
         Swal.fire('Warning', 'Something went wrong', 'warning');
       }
     );
+  }
+
+  initialFormBuilder(): void {
+    // responderId: new FormControl('', []),
+    // responderName: new FormControl('', []),
+    // responderDescription: new FormControl({ value: '', disabled: true }, []),
+    // responderDescription: new FormArray([], [Validators.required]),
+    // status: new FormControl('', []),
+    this.receivedCrimeForm = this.formBuilder.group({
+      responderId: [],
+      responderName: [],
+      responderDescription: new FormArray(
+        [
+          this.formBuilder.group({
+            responderDescriptionTxt: ['', Validators.required],
+          }),
+        ],
+        [Validators.required]
+      ),
+      status: [],
+    });
   }
 
   getCrimeImageVideoByIdList() {
@@ -283,7 +319,7 @@ export class ManageCrimeComponent implements OnInit {
     let receivedCrimeFormValue = {
       responderId,
       responderName,
-      responderDescription,
+      // responderDescription,
       status: status,
     };
 
@@ -299,9 +335,12 @@ export class ManageCrimeComponent implements OnInit {
         let result: any = res;
         let control = this.receivedCrimeForm.get('responderDescription');
         if (result === false) {
-          control.disable();
+          //to enable disable the field
+          // control.disable();
         } else {
-          control.enable();
+          //to enable disable the field
+          // control.enable();
+          this.isAddnewDescription = true;
         }
         this.spinner.hide();
       },
@@ -314,15 +353,11 @@ export class ManageCrimeComponent implements OnInit {
   }
 
   updateCrimeStatus() {
+    this.submitted = true;
     this.spinner.show();
     if (this.receivedCrimeForm.valid) {
       this.receiveCrimeService
-        .updateCrimeStatusById(
-          this.reportId,
-          this.responderId?.value,
-          this.responderDescription?.value,
-          this.status?.value
-        )
+        .updateCrimeStatusById(this.ReceivceCrimeFormInfo)
         .subscribe(
           (res) => {
             let result: any = res;
@@ -390,10 +425,12 @@ export class ManageCrimeComponent implements OnInit {
     this.generateDataPdf = [
       [
         'Report Number',
-        'Date Received',
         'Reported By',
         'Type Of Crime',
+        'Name Of Responder',
+        'Date And Time Received',
         'Description',
+        'Description Of Responder',
         'Status',
       ],
     ];
@@ -401,9 +438,11 @@ export class ManageCrimeComponent implements OnInit {
     this.receiveCrimeFilteredList.forEach((item, index) => {
       let myArr = [
         item.ReportIdStr,
-        item.Date,
         item.ReporterName,
         item.Category,
+        item.ResponderName,
+        item.Date,
+        item.Description,
         item.Description,
         item.Status,
       ];
@@ -411,15 +450,35 @@ export class ManageCrimeComponent implements OnInit {
     });
   }
 
+  addResponderDescriptionField(): void {
+    let responderDescription = this.receivedCrimeForm.get(
+      'responderDescription'
+    ) as FormArray;
+    let newResponderDescription = this.formBuilder.group({
+      responderDescriptionTxt: ['', Validators.required],
+    });
+    responderDescription.push(newResponderDescription);
+  }
+
   get responderId() {
     return this.receivedCrimeForm.get('responderId');
   }
 
   get responderDescription() {
-    return this.receivedCrimeForm.get('responderDescription');
+    return this.receivedCrimeForm.get('responderDescription') as FormArray;
   }
 
   get status() {
     return this.receivedCrimeForm.get('status');
+  }
+
+  get ReceivceCrimeFormInfo() {
+    return {
+      responderId: this.responderId,
+      responderName: this.receivedCrimeForm.get('responderName').value,
+      responderDescription: this.receivedCrimeForm.get('responderDescription')
+        .value,
+      status: this.receivedCrimeForm.get('status').value,
+    };
   }
 }
