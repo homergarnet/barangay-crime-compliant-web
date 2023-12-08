@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
     // this.spinner.show();
 
     window.open(
-      'https://hellokitty2-001-site1.etempurl.com/Test/api/download',
+      'https://sci284625-001-site1.anytempurl.com/Test/api/download',
       '_blank'
     );
     // this.authService.downloadApk().subscribe(
