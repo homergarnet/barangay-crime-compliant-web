@@ -156,6 +156,10 @@ export class ManageCrimeComponent implements OnInit {
           let result: any = res;
           this.receiveCrimeList = result;
           this.receiveCrimeFilteredList = result;
+          console.log(
+            'this.receiveCrimeFilteredList: ',
+            this.receiveCrimeFilteredList
+          );
           this.updateGenerateDatePdf();
           this.numberOfPages = Math.ceil(
             this.receiveCrimeList.length / this.resultPerPage
@@ -361,7 +365,8 @@ export class ManageCrimeComponent implements OnInit {
     // do something when input is focused
   }
 
-  generatePDF() {
+  generatePDF(i: number) {
+    this.updateGenerateDatePdf(i);
     const documentDefinition = {
       content: [
         { text: 'Manage Crime', style: 'header' },
@@ -369,6 +374,7 @@ export class ManageCrimeComponent implements OnInit {
           table: {
             body: this.generateDataPdf,
           },
+          style: 'tableStyle',
         },
       ],
       styles: {
@@ -378,6 +384,9 @@ export class ManageCrimeComponent implements OnInit {
           alignment: 'center',
           margin: [0, 0, 0, 10],
         },
+        tableStyle: {
+          fontSize: 10, // Apply the font size to the body of the table
+        },
       },
     };
 
@@ -385,29 +394,35 @@ export class ManageCrimeComponent implements OnInit {
     pdfDoc.download('Manage Crime-' + Date.now() + '.pdf');
   }
 
-  updateGenerateDatePdf(): void {
+  updateGenerateDatePdf(i: number = 0): void {
     this.generateDataPdf = [];
     this.generateDataPdf = [
       [
         'Report Number',
-        'Date Received',
         'Reported By',
         'Type Of Crime',
+        'Name Of Responder',
+        'Date And Time Received',
         'Description',
+        'Description Of Responder',
         'Status',
       ],
     ];
 
     this.receiveCrimeFilteredList.forEach((item, index) => {
-      let myArr = [
-        item.ReportIdStr,
-        item.Date,
-        item.ReporterName,
-        item.Category,
-        item.Description,
-        item.Status,
-      ];
-      this.generateDataPdf.push(myArr);
+      if (index == i) {
+        let myArr = [
+          item.ReportIdStr,
+          item.ReporterName,
+          item.Category,
+          item.ResponderName,
+          item.DateTimeUpdated,
+          item.Description,
+          item.ResponderDescription,
+          item.Status,
+        ];
+        this.generateDataPdf.push(myArr);
+      }
     });
   }
 
