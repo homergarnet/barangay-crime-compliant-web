@@ -146,7 +146,7 @@ export class SolvedCompletedReportsComponent implements OnInit {
     this.receiveCrimeService
       .receiveCrimeList(
         'crime',
-        '',
+        'completed',
         '',
         currentPageVal == 0 ? this.currentPage : currentPageVal,
         resultPerPageVal == 0 ? this.resultPerPage : resultPerPageVal
