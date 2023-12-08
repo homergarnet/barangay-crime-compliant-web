@@ -361,14 +361,16 @@ export class SolvedCompletedReportsComponent implements OnInit {
     // do something when input is focused
   }
 
-  generatePDF() {
+  generatePDF(i: number) {
+    this.updateGenerateDatePdf(i);
     const documentDefinition = {
       content: [
-        { text: 'Manage Crime', style: 'header' },
+        { text: 'Received Crime', style: 'header' },
         {
           table: {
             body: this.generateDataPdf,
           },
+          style: 'tableStyle',
         },
       ],
       styles: {
@@ -378,36 +380,45 @@ export class SolvedCompletedReportsComponent implements OnInit {
           alignment: 'center',
           margin: [0, 0, 0, 10],
         },
+        tableStyle: {
+          fontSize: 10, // Apply the font size to the body of the table
+        },
       },
     };
 
     const pdfDoc = this.pdfMake.createPdf(documentDefinition);
-    pdfDoc.download('Manage Crime-' + Date.now() + '.pdf');
+    pdfDoc.download('Solved Completed Reports-' + Date.now() + '.pdf');
   }
 
-  updateGenerateDatePdf(): void {
+  updateGenerateDatePdf(i: number = 0): void {
     this.generateDataPdf = [];
     this.generateDataPdf = [
       [
         'Report Number',
-        'Date Received',
         'Reported By',
         'Type Of Crime',
+        'Name Of Responder',
+        'Date And Time Received',
         'Description',
+        'Description Of Responder',
         'Status',
       ],
     ];
 
     this.receiveCrimeFilteredList.forEach((item, index) => {
-      let myArr = [
-        item.ReportIdStr,
-        item.Date,
-        item.ReporterName,
-        item.Category,
-        item.Description,
-        item.Status,
-      ];
-      this.generateDataPdf.push(myArr);
+      if (index == i) {
+        let myArr = [
+          item.ReportIdStr,
+          item.ReporterName,
+          item.Category,
+          item.ResponderName,
+          item.DateTimeUpdated,
+          item.Description,
+          item.ResponderDescription,
+          item.Status,
+        ];
+        this.generateDataPdf.push(myArr);
+      }
     });
   }
 
