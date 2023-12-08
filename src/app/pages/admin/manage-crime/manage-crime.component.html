@@ -198,7 +198,9 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let data of receiveCrimeFilteredList">
+                <tr
+                  *ngFor="let data of receiveCrimeFilteredList; let i = index"
+                >
                   <th scope="row">CR-2023 {{ data.ReportIdStr }}</th>
                   <td>{{ data.Date | date : "yyyy-MM-dd" }}</td>
                   <td>{{ data.Time }}</td>
@@ -239,8 +241,11 @@
                     >
                       View Details
                     </button>
-                    <button class="btn btn-secondary" type="button"
-                    (click)="generatePDF()">
+                    <button
+                      class="btn btn-secondary"
+                      type="button"
+                      (click)="generatePDF(i)"
+                    >
                       Download as Pdf
                     </button>
                   </td>
