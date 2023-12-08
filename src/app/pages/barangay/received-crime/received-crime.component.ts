@@ -119,29 +119,64 @@ export class ReceivedCrimeComponent implements OnInit {
     }
   }
 
-  updateGenerateDatePdf(): void {
+  generatePDF(i: number) {
+    this.updateGenerateDatePdf(i);
+    const documentDefinition = {
+      content: [
+        { text: 'Received Crime', style: 'header' },
+        {
+          table: {
+            body: this.generateDataPdf,
+          },
+          style: 'tableStyle',
+        },
+      ],
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          alignment: 'center',
+          margin: [0, 0, 0, 10],
+        },
+        tableStyle: {
+          fontSize: 10, // Apply the font size to the body of the table
+        },
+      },
+    };
+
+    const pdfDoc = this.pdfMake.createPdf(documentDefinition);
+    pdfDoc.download('Received Crime-' + Date.now() + '.pdf');
+  }
+
+  updateGenerateDatePdf(i: number = 0): void {
     this.generateDataPdf = [];
     this.generateDataPdf = [
       [
         'Report Number',
-        'Date Received',
         'Reported By',
         'Type Of Crime',
+        'Name Of Responder',
+        'Date And Time Received',
         'Description',
+        'Description Of Responder',
         'Status',
       ],
     ];
 
     this.receiveCrimeFilteredList.forEach((item, index) => {
-      let myArr = [
-        item.ReportIdStr,
-        item.Date,
-        item.ReporterName,
-        item.Category,
-        item.Description,
-        item.Status,
-      ];
-      this.generateDataPdf.push(myArr);
+      if (index == i) {
+        let myArr = [
+          item.ReportIdStr,
+          item.ReporterName,
+          item.Category,
+          item.ResponderName,
+          item.DateTimeUpdated,
+          item.Description,
+          item.ResponderDescription,
+          item.Status,
+        ];
+        this.generateDataPdf.push(myArr);
+      }
     });
   }
 
@@ -298,30 +333,6 @@ export class ReceivedCrimeComponent implements OnInit {
           Swal.fire('Warning', 'Something went wrong', 'warning');
         }
       );
-  }
-
-  generatePDF() {
-    const documentDefinition = {
-      content: [
-        { text: 'Receive Crime', style: 'header' },
-        {
-          table: {
-            body: this.generateDataPdf,
-          },
-        },
-      ],
-      styles: {
-        header: {
-          fontSize: 18,
-          bold: true,
-          alignment: 'center',
-          margin: [0, 0, 0, 10],
-        },
-      },
-    };
-
-    const pdfDoc = this.pdfMake.createPdf(documentDefinition);
-    pdfDoc.download('receive Crime-' + Date.now() + '.pdf');
   }
 
   get status() {
